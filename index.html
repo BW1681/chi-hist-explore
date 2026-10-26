@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>中國歷史尋找答案 · 中一第一冊</title>
+<style>
+:root{
+  --ink:#2b2118; --card:#fff8ef; --good:#2f9e44; --bad:#c92a2a; --gold:#e67700;
+  --scene-a:#c9a66b; --scene-b:#8b4513;
+  --scroll:#f3e5c2; --cinnabar:#c92a2a; --bronze:#8b6914; --inkblack:#1a120b;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;min-height:100%;font-family:"PingFang HK","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;
+  background:
+    radial-gradient(ellipse at 20% 0%,rgba(201,166,107,.35),transparent 50%),
+    radial-gradient(ellipse at 80% 100%,rgba(139,69,19,.4),transparent 45%),
+    linear-gradient(180deg,#3d2914 0%,#5c3d1e 25%,#8b4513 55%,#2b1810 100%);
+  color:#fff8ef;overscroll-behavior:none}
+body{min-height:100dvh;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+header{max-width:1100px;margin:0 auto;padding:14px 16px 0}
+header h1{margin:0;font-size:clamp(20px,5.2vw,32px);letter-spacing:.04em;text-shadow:0 3px 0 rgba(0,0,0,.35),0 8px 20px rgba(0,0,0,.35);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+header h1 .badge{font-size:12px;background:linear-gradient(180deg,#ffe8a3,#e67700);color:#3d2914;padding:4px 10px;border-radius:999px;border:2px solid #c92a2a;box-shadow:0 3px 0 #7a1c1c;font-weight:800}
+header p{margin:8px 0 0;font-size:14px;line-height:1.55;color:#f3e5c2;max-width:820px;text-shadow:0 1px 2px rgba(0,0,0,.35)}
+.topbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.chip{background:rgba(243,229,194,.18);backdrop-filter:blur(6px);border:2px solid rgba(243,229,194,.45);border-radius:999px;padding:8px 14px;font-weight:800;font-size:13px;box-shadow:0 3px 0 rgba(0,0,0,.2)}
+.snd-btn{border:2px solid #f3e5c2;background:linear-gradient(180deg,#fff8ef,#e8d5a8);color:#5c3d1e;border-radius:999px;padding:8px 14px;font-weight:900;font-size:13px;cursor:pointer;font-family:inherit;box-shadow:0 3px 0 #8b6914;touch-action:manipulation}
+.snd-btn.on{background:linear-gradient(180deg,#ffe8a3,#fcc419);border-color:#e67700;color:#5c4800;box-shadow:0 3px 0 #c92a2a}
+#map{max-width:1100px;margin:0 auto;padding:12px 16px 48px}
+.map-hero{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin:8px 0 16px;padding:14px 16px;border-radius:20px;
+  background:linear-gradient(135deg,rgba(243,229,194,.28),rgba(139,69,19,.25));
+  border:3px solid rgba(243,229,194,.55);box-shadow:0 10px 0 rgba(0,0,0,.2),0 18px 40px rgba(0,0,0,.25)}
+.mascot{width:88px;height:88px;filter:drop-shadow(0 8px 12px rgba(0,0,0,.35));animation:bob 2.2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.map-hero h2{margin:0 0 4px;font-size:clamp(17px,4vw,22px);text-shadow:0 2px 0 rgba(0,0,0,.25)}
+.map-hero p{margin:0;font-size:13.5px;line-height:1.5;color:#fff8ef}
+.unit-block{margin:0 0 18px}
+.unit-block h3{margin:0 0 10px;font-size:15px;display:inline-flex;align-items:center;gap:8px;background:rgba(0,0,0,.28);padding:6px 14px;border-radius:999px;border:2px solid rgba(243,229,194,.35)}
+.island-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.island,.unit-card{position:relative;border:none;cursor:pointer;touch-action:manipulation;font-family:inherit;text-align:left;padding:14px 12px 16px;border-radius:18px;color:#fff;font-weight:900;box-shadow:0 8px 0 rgba(0,0,0,.28),0 14px 28px rgba(0,0,0,.22);transition:transform .12s,box-shadow .12s;min-height:118px;background:linear-gradient(165deg,rgba(255,248,239,.35),rgba(0,0,0,.15));border:3px solid rgba(243,229,194,.55)}
+.island:active,.unit-card:active{transform:translateY(4px);box-shadow:0 3px 0 rgba(0,0,0,.28)}
+.unit-card{min-height:140px}
+.island .emo,.unit-card .emo{font-size:32px;display:block;filter:drop-shadow(0 3px 0 rgba(0,0,0,.2));margin-bottom:4px}
+.island .ttl,.unit-card .ttl{font-size:13.5px;line-height:1.35;text-shadow:0 2px 0 rgba(0,0,0,.25)}
+.unit-card .ttl{font-size:15px}
+.island .meta,.unit-card .meta{margin-top:6px;font-size:11px;opacity:.92;font-weight:700}
+.island .opt-tag{display:inline-block;margin-top:4px;font-size:10px;background:#c92a2a;padding:2px 8px;border-radius:999px;border:1px solid #fff}
+.island.done{outline:3px solid #fcc419}
+.back-chip{margin:0 0 12px}
+.back-chip button{font-family:inherit;font-weight:800;cursor:pointer;touch-action:manipulation;border-radius:14px;border:2px solid #f3e5c2;background:linear-gradient(180deg,#fff8ef,#e8d5a8);color:#5c3d1e;padding:10px 14px;font-size:14px;box-shadow:0 3px 0 #8b6914}
+#panel{display:none;position:fixed;inset:0;z-index:40;background:rgba(26,18,11,.62);backdrop-filter:blur(3px);align-items:flex-start;justify-content:center;padding:8px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+#panel.show{display:flex;animation:fadeIn .2s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.card{width:100%;max-width:720px;margin:4px auto 20px;background:linear-gradient(180deg,#fffefb,#f3e5c2);color:var(--ink);border-radius:22px;padding:14px 14px 18px;position:relative;box-shadow:0 16px 0 rgba(0,0,0,.2),0 28px 60px rgba(0,0,0,.4);border:3px solid #fff8ef;animation:cardIn .32s cubic-bezier(.2,.9,.3,1)}
+@keyframes cardIn{from{transform:translateY(18px) scale(.96);opacity:0}to{transform:none;opacity:1}}
+.card::before{content:"";position:absolute;left:12px;right:12px;top:8px;height:6px;border-radius:999px;background:linear-gradient(90deg,#c92a2a,#e67700,#c9a66b,#8b6914,#5c3d1e)}
+.panel-top{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 8px;align-items:center}
+.panel-top button,.go{font-family:inherit;font-weight:800;cursor:pointer;touch-action:manipulation;border-radius:14px}
+.panel-top button{border:2px solid #a89984;background:linear-gradient(180deg,#fff8ef,#e8d5a8);color:#3d2914;padding:10px 14px;font-size:14px;box-shadow:0 3px 0 #8b6914}
+.panel-top button:active{transform:translateY(2px);box-shadow:0 1px 0 #8b6914}
+.panel-top .hint-btn{border-color:#e67700;background:linear-gradient(180deg,#fff9db,#ffe066);color:#5c4800;box-shadow:0 3px 0 #c92a2a}
+#ptitle{margin:4px 0 6px;font-size:clamp(16px,4vw,20px)}
+.subline{font-size:12.5px;color:#6b5428;font-weight:700;margin-bottom:8px}
+.timer-box{margin:8px 0 12px;padding:12px;border-radius:14px;background:linear-gradient(180deg,#fff8ef,#f3e5c2);border:2px solid #c9a66b}
+.timer-box .row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.timer-box label{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;background:#fff;border:2px solid #e8d5a8;font-weight:800;font-size:13px;cursor:pointer;color:#5c3d1e}
+.timer-box label.on{background:#ffe8a3;border-color:#e67700}
+.q-timer{margin:6px 0;padding:8px 12px;border-radius:12px;background:linear-gradient(180deg,#fff9db,#ffe066);border:2px solid #e67700;font-weight:900;color:#5c4800;display:flex;align-items:center;gap:10px}
+.q-timer.warn{background:linear-gradient(180deg,#fff5f5,#ffc9c9);border-color:#c92a2a;color:#c92a2a}
+.q-timer .secs{font-size:18px;min-width:2.6em}
+.q-timer .bar{flex:1;height:10px;background:rgba(0,0,0,.08);border-radius:999px;overflow:hidden}
+.q-timer .bar>i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#2f9e44,#e67700);transition:width .2s linear}
+.task-card{margin:6px 0 10px;padding:12px 14px;border-radius:16px;background:linear-gradient(180deg,#fff,#fff8e7);border:3px solid #e67700;box-shadow:0 4px 0 #c92a2a}
+.task-card .mission{font-size:12px;font-weight:900;color:#c92a2a;letter-spacing:.04em;margin-bottom:4px}
+.task-card .q{font-size:clamp(15px,4vw,18px);line-height:1.45;font-weight:900;margin:0;color:var(--ink)}
+.src-tag{display:inline-block;font-size:11px;font-weight:800;padding:3px 8px;border-radius:999px;background:#fff3bf;color:#5c4800;border:1px solid #e67700;margin-right:6px}
+.sec-tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 8px;border-radius:999px;background:#f3e5c2;color:#5c3d1e;border:1px solid #c9a66b}
+.score-pill{display:inline-flex;gap:8px;flex-wrap:wrap;margin:4px 0 8px}
+.score-pill span{background:#f3e5c2;border:2px solid #c9a66b;color:#5c3d1e;font-weight:900;font-size:12px;padding:4px 10px;border-radius:999px}
+.scene-wrap{position:relative;border-radius:18px;overflow:hidden;border:3px solid rgba(255,248,239,.9);box-shadow:inset 0 -20px 40px rgba(0,0,0,.1),0 8px 0 rgba(0,0,0,.18);min-height:360px;height:min(58vh,480px);touch-action:manipulation;user-select:none}
+.scene-bg{position:absolute;inset:0;background:linear-gradient(180deg,var(--scene-a) 0%,var(--scene-b) 70%,#3d2914 100%)}
+.scene-deco{position:absolute;pointer-events:none;font-size:28px;opacity:.85;filter:drop-shadow(0 2px 0 rgba(0,0,0,.15));animation:floaty 3.5s ease-in-out infinite}
+.scene-deco.d2{animation-duration:4.2s;animation-delay:.4s;font-size:22px}
+.scene-deco.d3{animation-duration:2.8s;animation-delay:.8s;font-size:34px}
+.scene-floor{position:absolute;left:0;right:0;bottom:0;height:28%;background:linear-gradient(180deg,transparent,rgba(0,0,0,.18));pointer-events:none}
+.scene-ground{position:absolute;left:0;right:0;bottom:0;height:18%;background:repeating-linear-gradient(90deg,rgba(243,229,194,.08) 0 12px,transparent 12px 24px);pointer-events:none}
+.find-obj{
+  position:absolute;z-index:2;min-width:64px;max-width:32%;max-height:38%;padding:7px 9px;border-radius:14px;
+  border:3px solid rgba(255,248,239,.9);background:linear-gradient(180deg,rgba(255,254,251,.96),rgba(243,229,194,.92));
+  color:var(--ink);font-weight:800;font-size:12px;line-height:1.25;text-align:center;
+  box-shadow:0 6px 0 rgba(0,0,0,.2),0 10px 20px rgba(0,0,0,.18);
+  cursor:pointer;touch-action:manipulation;font-family:inherit;
+  animation:floatPulse 2.8s ease-in-out infinite;transform-origin:center bottom;
+  -webkit-user-select:none;user-select:none;overflow:hidden;
+  transition:z-index 0s,box-shadow .15s,opacity .25s,transform .25s;
+}
+.find-obj .ico{display:block;font-size:22px;line-height:1;margin-bottom:2px;filter:drop-shadow(0 2px 0 rgba(0,0,0,.12))}
+.find-obj .lbl{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;word-break:break-word;max-height:4.2em}
+.find-obj:hover,.find-obj:focus{z-index:7;outline:none}
+.find-obj:focus-visible{box-shadow:0 0 0 3px rgba(230,119,0,.75),0 6px 0 rgba(0,0,0,.18)}
+.find-obj:active{transform:scale(.96) translateY(1px);z-index:7}
+.find-obj.wrong{animation:shakeObj .4s ease;background:linear-gradient(180deg,#e9ecef,#ced4da)!important;border-color:#868e96;color:#495057;opacity:.35;pointer-events:none;box-shadow:0 2px 0 #868e96;transform:scale(.55);z-index:1;max-width:22%;max-height:28%}
+.find-obj.correct{animation:glowWin .7s ease;background:linear-gradient(180deg,#d3f9d8,#8ce99a)!important;border-color:#2f9e44;box-shadow:0 0 0 4px rgba(64,192,87,.45),0 8px 0 #2f9e44;z-index:5}
+.find-obj.decoy{background:linear-gradient(180deg,rgba(255,255,255,.75),rgba(233,236,239,.85));border-style:dashed;opacity:.9}
+.find-obj.hint-glow{box-shadow:0 0 0 3px rgba(252,196,25,.7),0 0 18px rgba(252,196,25,.55),0 6px 0 rgba(0,0,0,.18)!important;z-index:6}
+.find-obj.clue-found{background:linear-gradient(180deg,#fff3bf,#fcc419)!important;border-color:#e67700;animation:glowWin .6s ease;z-index:5}
+@keyframes floatPulse{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes floaty{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-8px) rotate(2deg)}}
+@keyframes shakeObj{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+@keyframes glowWin{0%{transform:scale(1)}40%{transform:scale(1.12)}100%{transform:scale(1)}}
+.toast{position:absolute;left:50%;bottom:14%;transform:translateX(-50%);z-index:8;background:rgba(26,18,11,.92);color:#fff8ef;font-weight:900;font-size:14px;padding:10px 16px;border-radius:999px;border:2px solid #f3e5c2;box-shadow:0 6px 16px rgba(0,0,0,.35);pointer-events:none;opacity:0;transition:opacity .2s}
+.toast.show{opacity:1}
+.clue-book{margin-top:10px;padding:10px 12px;border-radius:14px;background:linear-gradient(180deg,#fff9db,#ffe8a3);border:2px solid #e67700;font-weight:800;font-size:13.5px;color:#5c4800;display:none}
+.clue-book.show{display:block;animation:cardIn .3s ease}
+.input-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.input-row input{flex:1 1 160px;font-size:17px;padding:12px 14px;border-radius:12px;border:3px solid #e67700;font-family:inherit;font-weight:700;color:var(--ink)}
+button.go{display:block;width:100%;text-align:center;margin:10px 0 0;padding:14px;font-size:17px;border:3px solid #c92a2a;background:linear-gradient(180deg,#ffe8a3,#e67700);color:#3d2914;box-shadow:0 5px 0 #7a1c1c}
+button.go:active{transform:translateY(3px);box-shadow:0 1px 0 #7a1c1c}
+button:disabled{opacity:.55;cursor:not-allowed}
+#why{min-height:22px;font-weight:800;color:#3d2914;margin-top:8px;font-size:14px}
+#fx{pointer-events:none;position:absolute;inset:0;overflow:hidden;z-index:5}
+#fx .bit{position:absolute;top:-16px;font-size:22px;animation:confetti 1.4s ease-out forwards;opacity:0}
+@keyframes confetti{0%{opacity:0;transform:translateY(0) rotate(0)}15%{opacity:1}100%{opacity:0;transform:translateY(120px) rotate(240deg)}}
+.praise{pointer-events:none;position:absolute;left:50%;top:8%;transform:translateX(-50%) scale(.7);z-index:8;text-align:center;min-width:55%;animation:praisePop 1.7s cubic-bezier(.2,1.2,.3,1) forwards;opacity:0}
+.praise .emoji{display:block;font-size:clamp(34px,9vw,52px);filter:drop-shadow(0 6px 10px rgba(0,0,0,.25))}
+.praise .text{display:inline-block;background:linear-gradient(180deg,#fff3bf,#fcc419);color:#5c4800;font-weight:900;font-size:clamp(16px,4vw,24px);padding:10px 18px;border-radius:999px;border:3px solid #e67700;box-shadow:0 7px 0 #c92a2a}
+@keyframes praisePop{0%{opacity:0;transform:translateX(-50%) scale(.5)}18%{opacity:1;transform:translateX(-50%) scale(1.06)}70%{opacity:1}100%{opacity:0;transform:translateX(-50%) translateY(-10px) scale(.95)}}
+.card.celeb{box-shadow:0 0 0 4px rgba(230,119,0,.55),0 16px 0 rgba(0,0,0,.2),0 28px 60px rgba(0,0,0,.4)}
+.report-sum{margin:8px 0;padding:12px;border-radius:14px;background:linear-gradient(180deg,#e6fcf5,#c3fae8);border:2px solid #2f9e44;font-weight:900}
+.report-encourage{margin:6px 0 12px;font-weight:900;color:#087f5b;font-size:15px}
+.report-item{margin:8px 0;padding:10px 12px;border-radius:12px;background:#fffaf0;border:2px solid #e8d5a8;font-size:13.5px;line-height:1.45}
+.report-item.ok{border-color:#8ce99a;background:#ebfbee}
+.report-item.ng{border-color:#ffa8a8;background:#fff5f5}
+.foot{text-align:center;font-size:12px;color:#f3e5c2;opacity:.85;padding:8px 16px 24px}
+.scene-shake{animation:shakeObj .4s ease}
+@media (prefers-reduced-motion:reduce){
+  .mascot,.find-obj,.scene-deco,#fx,.praise{animation:none!important}
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>📜 中國歷史尋找答案 <span class="badge">中一 · 第一冊 · 場景探索</span></h1>
+  <p>根據香港教育圖書《樂學中國歷史》第一冊網上課本要點。先揀單元，再入課題場景；喺竹簡／青銅／卷軸之間搵答案。計時可選、只計第一次答對；答錯要繼續搵；結算先公佈正確答案。</p>
+  <div class="topbar">
+    <span class="chip" id="hudScore">分數 0</span>
+    <span class="chip" id="hudDone">已完成 0 課題</span>
+    <button type="button" class="snd-btn" id="sndBtn" aria-pressed="false">🔊 音效：開</button>
+  </div>
+</header>
+<main id="map"></main>
+<p class="foot">離線可玩 · 唔寫姓名欄 · gameId=chi-hist-explore · 樂學中國歷史第一冊 · 純 CSS／emoji 中國歷史氣氛</p>
+<div id="panel" role="dialog" aria-modal="true"><div class="card" id="card"><div id="fx"></div><div class="panel-top" id="ptop"></div><h2 id="ptitle"></h2><div id="pbody"></div></div></div>
+<script>
+/* P5_PLATFORM_HELPER_START */
+window.P5Platform = (function () {
+  var STORE_KEY = "p5EduPlatform_v1";
+  var PENDING_KEY = "p5EduPlatform_pendingIngest_v1";
+  var qs = new URLSearchParams(location.search || "");
+  var playerRaw = (qs.get("player") || "").trim();
+  var nameRaw = qs.get("name");
+  // URLSearchParams.get already percent-decodes; keep raw display text
+  var displayName = (nameRaw && String(nameRaw).trim()) ? String(nameRaw) : playerRaw;
+  var returnFile = (qs.get("return") || "小五遊戲平台.html").trim() || "小五遊戲平台.html";
+  var lastRec = null;
+
+  function normCode(s) {
+    return String(s || "").trim().replace(/\s+/g, " ").toLowerCase();
+  }
+  function rid() {
+    return "r" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+  }
+  function b64urlEncode(obj) {
+    var json = JSON.stringify(obj);
+    var bytes = new TextEncoder().encode(json);
+    var bin = "";
+    for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+    return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+  }
+  function loadStore() {
+    try {
+      var raw = localStorage.getItem(STORE_KEY);
+      if (!raw) return { version: 1, lastPlayerCode: "", players: {} };
+      var o = JSON.parse(raw);
+      if (!o || typeof o !== "object") return { version: 1, lastPlayerCode: "", players: {} };
+      o.version = 1;
+      o.players = o.players || {};
+      return o;
+    } catch (e) {
+      return { version: 1, lastPlayerCode: "", players: {} };
+    }
+  }
+  function saveStore(store) {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(store)); return true; }
+    catch (e) { return false; }
+  }
+  function ensurePlayer(store, codeTyped, display) {
+    var key = normCode(codeTyped);
+    if (!key) return null;
+    if (!store.players[key]) {
+      store.players[key] = {
+        code: codeTyped,
+        displayName: display || codeTyped,
+        createdAt: new Date().toISOString(),
+        lastPlayedAt: new Date().toISOString(),
+        records: []
+      };
+    } else {
+      if (display) store.players[key].displayName = display;
+      store.players[key].code = codeTyped || store.players[key].code;
+    }
+    return key;
+  }
+  function mergeRecord(store, key, rec) {
+    var p = store.players[key];
+    if (!p) return;
+    p.records = p.records || [];
+    var dup = false;
+    if (rec.id) {
+      for (var i = 0; i < p.records.length; i++) {
+        if (p.records[i] && p.records[i].id === rec.id) { dup = true; break; }
+      }
+    }
+    if (!dup) p.records.unshift(rec);
+    if (p.records.length > 200) p.records.length = 200;
+    p.lastPlayedAt = rec.at || new Date().toISOString();
+    store.lastPlayerCode = p.code || key;
+  }
+  function report(partial) {
+    if (!playerRaw) return null;
+    var rec = {
+      id: (partial && partial.id) || rid(),
+      gameId: (partial && partial.gameId) || "",
+      game: (partial && partial.game) || "",
+      mode: (partial && partial.mode) || "",
+      lesson: (partial && partial.lesson) || "",
+      detail: (partial && partial.detail) || "",
+      score: Number((partial && partial.score) != null ? partial.score : 0) || 0,
+      maxScore: Number((partial && partial.maxScore) != null ? partial.maxScore : 0) || 0,
+      pct: Number((partial && partial.pct) != null ? partial.pct : 0) || 0,
+      at: (partial && partial.at) || new Date().toISOString()
+    };
+    if (!rec.maxScore && rec.score) rec.maxScore = rec.score;
+    if (!rec.pct && rec.maxScore > 0) rec.pct = Math.round((rec.score / rec.maxScore) * 100);
+    lastRec = rec;
+    try {
+      var store = loadStore();
+      var key = ensurePlayer(store, playerRaw, displayName);
+      if (key) {
+        mergeRecord(store, key, rec);
+        saveStore(store);
+      }
+    } catch (e) {}
+    try {
+      var payload = { player: playerRaw, name: displayName, records: [rec] };
+      localStorage.setItem(PENDING_KEY, JSON.stringify(payload));
+    } catch (e2) {}
+    return rec;
+  }
+  function hubUrl(extra) {
+    var base = returnFile.indexOf("://") >= 0 || returnFile.charAt(0) === "/"
+      ? returnFile
+      : returnFile;
+    var q = new URLSearchParams();
+    if (playerRaw) q.set("player", playerRaw);
+    var ingestObj = null;
+    if (lastRec) {
+      ingestObj = { player: playerRaw, name: displayName, records: [lastRec] };
+    } else {
+      try {
+        var pend = localStorage.getItem(PENDING_KEY);
+        if (pend) ingestObj = JSON.parse(pend);
+      } catch (e) {}
+    }
+    if (ingestObj && ingestObj.records && ingestObj.records.length) {
+      q.set("ingest", b64urlEncode(ingestObj));
+    }
+    if (extra && typeof extra === "object") {
+      Object.keys(extra).forEach(function (k) {
+        if (extra[k] != null) q.set(k, String(extra[k]));
+      });
+    }
+    var qsStr = q.toString();
+    return qsStr ? (base + "?" + qsStr) : base;
+  }
+  function goHub(extra) {
+    location.href = hubUrl(extra);
+  }
+  function ensureStyles() {
+    if (document.getElementById("p5-plat-styles")) return;
+    var st = document.createElement("style");
+    st.id = "p5-plat-styles";
+    st.textContent =
+      ".p5-plat-badge{position:fixed;top:max(10px,env(safe-area-inset-top));right:max(10px,env(safe-area-inset-right));z-index:9999;background:rgba(255,248,238,.96);color:#1b2838;border:2px solid #e0a800;border-radius:999px;padding:8px 14px;font-weight:800;font-size:14px;box-shadow:0 4px 14px rgba(0,0,0,.2);max-width:min(70vw,280px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;pointer-events:none;font-family:inherit}" +
+      ".p5-plat-return{display:block;width:100%;text-align:center;font-size:17px;margin:10px 0;padding:14px 16px;min-height:44px;border-radius:12px;border:2px solid #c47800;background:linear-gradient(180deg,#fff3d6,#ffe7a8);cursor:pointer;touch-action:manipulation;font-family:inherit;font-weight:800;color:#5a3a00;box-shadow:0 4px 0 #d4a84a}" +
+      ".p5-plat-return:active{transform:translateY(2px);box-shadow:0 1px 0 #d4a84a}" +
+      ".p5-plat-return-inline{display:inline-flex;align-items:center;justify-content:center;margin:8px 0;padding:10px 14px;min-height:44px;border-radius:12px;border:2px solid #c47800;background:linear-gradient(180deg,#fff3d6,#ffe7a8);cursor:pointer;touch-action:manipulation;font-family:inherit;font-weight:800;color:#5a3a00;box-shadow:0 3px 0 #d4a84a;text-decoration:none}" +
+      ".p5-plat-homebar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0 12px}";
+    document.head.appendChild(st);
+  }
+  function showBadge() {
+    if (!playerRaw) return;
+    ensureStyles();
+    var el = document.getElementById("p5-plat-badge");
+    if (!el) {
+      el = document.createElement("div");
+      el.id = "p5-plat-badge";
+      el.className = "p5-plat-badge";
+      (document.body || document.documentElement).appendChild(el);
+    }
+    el.textContent = "玩家：" + (displayName || playerRaw);
+  }
+  function makeReturnBtn(cls) {
+    ensureStyles();
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = cls || "p5-plat-return";
+    b.textContent = "返回遊戲平台";
+    b.onclick = function () { goHub(); };
+    return b;
+  }
+  function appendReturn(parent, opts) {
+    if (!playerRaw || !parent) return null;
+    opts = opts || {};
+    if (parent.querySelector && parent.querySelector("[data-p5-plat-return]")) return null;
+    var b = makeReturnBtn(opts.className || "p5-plat-return");
+    b.setAttribute("data-p5-plat-return", "1");
+    if (opts.prepend && parent.firstChild) parent.insertBefore(b, parent.firstChild);
+    else parent.appendChild(b);
+    return b;
+  }
+  function appendHomeChrome(parent) {
+    if (!playerRaw || !parent) return;
+    ensureStyles();
+    if (parent.querySelector && parent.querySelector("[data-p5-plat-homebar]")) return;
+    var bar = document.createElement("div");
+    bar.className = "p5-plat-homebar";
+    bar.setAttribute("data-p5-plat-homebar", "1");
+    var tip = document.createElement("span");
+    tip.style.cssText = "font-weight:800;color:#5a3a00;background:#fff3d6;border:1px solid #e0a800;border-radius:999px;padding:6px 12px;font-size:14px";
+    tip.textContent = "玩家：" + (displayName || playerRaw);
+    bar.appendChild(tip);
+    var b = makeReturnBtn("p5-plat-return-inline");
+    b.setAttribute("data-p5-plat-return", "1");
+    bar.appendChild(b);
+    if (parent.firstChild) parent.insertBefore(bar, parent.firstChild);
+    else parent.appendChild(bar);
+  }
+  function mountChrome() {
+    if (!playerRaw) return;
+    showBadge();
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", mountChrome);
+  } else {
+    try { mountChrome(); } catch (e) {}
+  }
+
+  return {
+    player: playerRaw,
+    name: displayName,
+    returnFile: returnFile,
+    hasPlayer: !!playerRaw,
+    report: report,
+    hubUrl: hubUrl,
+    goHub: goHub,
+    showBadge: showBadge,
+    appendReturn: appendReturn,
+    appendHomeChrome: appendHomeChrome,
+    mountChrome: mountChrome,
+    normCode: normCode
+  };
+})();
+/* P5_PLATFORM_HELPER_END */
+
+const UNITS_META = [{"key":"u1","title":"單元一　史前至夏商周","subtitle":"中華民族的起源與早期國家的形成","emoji":"🏺","color":"#c92a2a","lessonCount":3,"qCount":40},{"key":"u2","title":"單元二　秦漢","subtitle":"統一國家的形成與中外文化交流","emoji":"🏯","color":"#e8590c","lessonCount":2,"qCount":31},{"key":"u3","title":"單元三　三國兩晉南北朝","subtitle":"長期的分裂與南北方的發展","emoji":"⚔️","color":"#5f3dc4","lessonCount":3,"qCount":37},{"key":"u4","title":"單元四　隋唐（樣本）","subtitle":"隋唐的統一、發展與開放的社會","emoji":"📜","color":"#c92a2a","lessonCount":5,"qCount":43}];
+const ISLANDS = [{"id":1,"unitKey":"u1","unit":"單元一　史前至夏商周　中華民族的起源與早期國家的形成","unitTitle":"單元一　史前至夏商周","unitSubtitle":"中華民族的起源與早期國家的形成","name":"課題一　中華民族與早期國家的起源","emoji":"🦴","color":"#c92a2a","optional":false,"questions":[{"kind":"mc","sec":"舊石器","src":"單元一 課題一 p.4","q":"舊石器時代先民主要使用哪種石器？","opts":["磨製石器","打製石器","鐵器","青銅器"],"ans":1},{"kind":"mc","sec":"舊石器","src":"單元一 課題一 p.4","q":"下列哪位不是課本所列舊石器時代古人類代表？","opts":["元謀人","藍田人","北京人","半坡人"],"ans":3},{"kind":"mc","sec":"新石器","src":"單元一 課題一 p.4","q":"約一萬年前進入新石器時代後，先民較明顯的進步是？","opts":["只會打製石器、不懂用火","磨製石器、陶器、農耕畜牧、聚族定居","已經普遍使用鐵兵器","已有完備文字記錄全國"],"ans":1},{"kind":"mc","sec":"多元一體","src":"單元一 課題一 p.4","q":"課文指中華文明特色是「多元一體」，意思較接近？","opts":["只由單一中原源頭獨立產生","以中原為引領，各區域文明交流融合","完全沒有區域文化交流","只源於長江流域"],"ans":1},{"kind":"mc","sec":"仰韶","src":"單元一 課題一 p.4","q":"仰韶文化又稱「彩陶文化」，主要分布於？","opts":["長江下游","黃河中游","珠江三角洲","東北平原"],"ans":1},{"kind":"mc","sec":"良渚","src":"單元一 課題一 p.4","q":"良渚文化中，玉琮主要象徵甚麼？","opts":["軍權","神權","商業貿易","航海技術"],"ans":1},{"kind":"mc","sec":"炎黃","src":"單元一 課題一 p.10","q":"黃帝在涿鹿打敗誰，成為共主？","opts":["炎帝","蚩尤","夏桀","商紂"],"ans":1},{"kind":"mc","sec":"禪讓","src":"單元一 課題一 p.10","q":"「禪讓」選繼承人的原則是？","opts":["只按血緣嫡長","以才德而非血緣","抽籤決定","軍事比武優勝者"],"ans":1},{"kind":"mc","sec":"夏","src":"單元一 課題一 p.14","q":"夏朝由誰所建，並開啟「家天下」世襲？","opts":["堯建夏，舜繼位","禹建夏，啟繼位改世襲","湯建夏，伊尹繼位","武王建夏，周公繼位"],"ans":1},{"kind":"mc","sec":"商","src":"單元一 課題一 p.14","q":"盤庚遷都後，商又稱為？","opts":["亳商","殷／殷商","鎬商","洛邑商"],"ans":1},{"kind":"mc","sec":"西周亡","src":"單元一 課題一 p.14","q":"西周滅亡的直接事件是？","opts":["牧野之戰紂王自殺","申侯聯犬戎攻陷鎬京，幽王被殺","秦吞洛邑","三家分晉"],"ans":1},{"kind":"input","sec":"概念","src":"單元一 課題一 p.10","q":"以才德選繼承人、堯舜禹相傳的制度稱為？（兩個字）","ans":"禪讓"},{"kind":"input","sec":"地名","src":"單元一 課題一 p.14","q":"周武王都城鎬京位於今哪一省市一帶？（兩個字，如：西安）","ans":"西安","accept":["西安","陝西西安","陝西"]}]},{"id":2,"unitKey":"u1","unit":"單元一　史前至夏商周　中華民族的起源與早期國家的形成","unitTitle":"單元一　史前至夏商周","unitSubtitle":"中華民族的起源與早期國家的形成","name":"課題二　西周的封建","emoji":"🏰","color":"#e67700","optional":false,"questions":[{"kind":"mc","sec":"封建","src":"單元一 課題二 p.20","q":"「封建」的意思是？","opts":["廢除諸侯改郡縣","封土建國","均田分田給農民","只分封商人"],"ans":1},{"kind":"mc","sec":"王畿","src":"單元一 課題二 p.20","q":"西周王畿是指？","opts":["諸侯任意佔領之地","天子直接管轄之地（鎬京及周圍方千里）","只有東方洛邑","六國故地"],"ans":1},{"kind":"mc","sec":"第一次封建","src":"單元一 課題二 p.20","q":"武王第一次封建中，姜尚被封於？","opts":["燕","魯","齊","晉"],"ans":2},{"kind":"mc","sec":"三監","src":"單元一 課題二 p.20","q":"武王派管叔、蔡叔、霍叔監視武庚，合稱？","opts":["三公","三監","三家","三卿"],"ans":1},{"kind":"mc","sec":"第二次封建","src":"單元一 課題二 p.20","q":"第二次封建與下列哪事關係最密切？","opts":["楚漢相爭","周公輔政、三監之亂後再分封","安史之亂","黃巾起事"],"ans":1},{"kind":"mc","sec":"等級","src":"單元一 課題二 p.20","q":"西周社會等級由高至低大致為？","opts":["士、平民、天子、諸侯","天子、諸侯、卿大夫、士、平民","平民、士、卿大夫、諸侯、天子","皇帝、丞相、太尉、御史"],"ans":1},{"kind":"mc","sec":"宗法","src":"單元一 課題二 p.20","q":"宗法制的核心繼承原則是？","opts":["幼子繼承","嫡長子繼承","母系繼承","軍功最高者繼承"],"ans":1},{"kind":"mc","sec":"井田","src":"單元一 課題二 p.20","q":"井田制中，井字九塊田的中間一塊是？","opts":["私田歸農民","公田歸貴族","商隊營地","軍隊校場"],"ans":1},{"kind":"mc","sec":"春秋戰國","src":"單元一 課題二 p.26","q":"一般以甚麼事件標誌戰國時代開始？","opts":["平王東遷","三家分晉","秦統一","牧野之戰"],"ans":1},{"kind":"mc","sec":"因果","src":"單元一 課題二 p.26","q":"課文指封建本為穩定政局，後來卻釀成亂局，主因是？","opts":["天子兵力永遠過強","諸侯坐大、天子失勢","完全沒有禮樂制度","全國立刻改行郡縣"],"ans":1},{"kind":"input","sec":"概念","src":"單元一 課題二 p.20","q":"周王把土地人民封給宗室功臣，這種制度簡稱？（兩個字）","ans":"封建"},{"kind":"input","sec":"概念","src":"單元一 課題二 p.20","q":"嫡長子繼承、大宗小宗的制度稱為？（兩個字）","ans":"宗法"}]},{"id":3,"unitKey":"u1","unit":"單元一　史前至夏商周　中華民族的起源與早期國家的形成","unitTitle":"單元一　史前至夏商周","unitSubtitle":"中華民族的起源與早期國家的形成","name":"課題三　春秋戰國時期的變局","emoji":"⚔️","color":"#9c36b5","optional":false,"questions":[{"kind":"mc","sec":"霸政","src":"單元一 課題三 p.30","q":"齊桓公提出的口號是？","opts":["遠交近攻","尊王攘夷","罷黜百家","蒼天已死"],"ans":1},{"kind":"mc","sec":"五霸","src":"單元一 課題三 p.30","q":"下列哪位是課本所列「春秋五霸」之一？","opts":["秦始皇","齊桓公","漢武帝","唐太宗"],"ans":1},{"kind":"mc","sec":"問鼎","src":"單元一 課題三 p.30","q":"「楚王問鼎」反映楚王意圖？","opts":["只想學鑄銅技術","圖謀取代周天子","幫助周室禦敵","推行井田制"],"ans":1},{"kind":"mc","sec":"七雄","src":"單元一 課題三 p.30","q":"戰國七雄不包括？","opts":["齊、楚、燕","秦、韓、趙、魏","吳、越、宋","齊、楚、秦"],"ans":2},{"kind":"mc","sec":"滅國次序","src":"單元一 課題三 p.30","q":"秦滅六國最後滅亡的是？","opts":["韓","楚","燕","齊"],"ans":3},{"kind":"mc","sec":"戰爭特色","src":"單元一 課題三 p.30","q":"相對春秋，戰國戰爭的特色較接近？","opts":["以爭霸為主、仍守禮、戰車為主","以滅國為目的、步騎兵為主、規模擴大","完全停止打仗","只用外交從不交戰"],"ans":1},{"kind":"mc","sec":"商鞅","src":"單元一 課題三 p.36","q":"商鞅在哪國推行變法？","opts":["齊","楚","秦","燕"],"ans":2},{"kind":"mc","sec":"變法內容","src":"單元一 課題三 p.36","q":"商鞅變法措施不包括？","opts":["廢井田，土地可私有買賣","按軍功授爵","設縣、廢封建","恢復井田並禁止買賣土地"],"ans":3},{"kind":"mc","sec":"百家","src":"單元一 課題三 p.38","q":"儒家主張較接近？","opts":["法治賞罰、權術威勢","仁恕誠孝、教化仁政","兼愛非攻","道法自然"],"ans":1},{"kind":"mc","sec":"墨家","src":"單元一 課題三 p.38","q":"墨家主張「兼愛、非攻」的代表人物是？","opts":["孔子","墨子","老子","韓非"],"ans":1},{"kind":"mc","sec":"法家","src":"單元一 課題三 p.38","q":"法家思想影響最大的代表人物是？","opts":["孟子","莊子","韓非","墨子"],"ans":2},{"kind":"mc","sec":"孔子","src":"單元一 課題三 p.40","q":"孔子主張教育上的重要理念是？","opts":["有教無類","只用刑罰","禁止平民讀書","只教貴族射箭"],"ans":0},{"kind":"mc","sec":"勾踐","src":"單元一 課題三 p.40","q":"越王勾踐「臥薪嘗膽」最終？","opts":["投降吳王再也不戰","約二十年後滅吳成霸主","立刻遷都洛陽","創立秦朝"],"ans":1},{"kind":"input","sec":"概念","src":"單元一 課題三 p.36","q":"商鞅為取信於民而賞金移木的故事，稱為？（四個字）","ans":"徙木立信"},{"kind":"input","sec":"學派","src":"單元一 課題三 p.38","q":"主張法治、賞罰的學派是？（兩個字）","ans":"法家"}]},{"id":4,"unitKey":"u2","unit":"單元二　秦漢　統一國家的形成與中外文化交流","unitTitle":"單元二　秦漢","unitSubtitle":"統一國家的形成與中外文化交流","name":"課題一　秦朝的統一、統治措施及衰亡","emoji":"🧱","color":"#868e96","optional":false,"questions":[{"kind":"mc","sec":"統一","src":"單元二 課題一 p.48","q":"秦王嬴政滅六國、建立大一統王朝是在哪一年？","opts":["前 256 年","前 221 年","前 202 年","公元 9 年"],"ans":1},{"kind":"mc","sec":"都城","src":"單元二 課題一 p.48","q":"秦朝都城是？","opts":["長安","洛陽","咸陽","建康"],"ans":2},{"kind":"mc","sec":"皇帝","src":"單元二 課題一 p.48","q":"嬴政自稱「始皇帝」，「朕」成為？","opts":["人人可用的自稱","皇帝專稱","丞相專稱","宦官專稱"],"ans":1},{"kind":"mc","sec":"三公","src":"單元二 課題一 p.48","q":"秦朝三公中，負責監察的是？","opts":["丞相","太尉","御史大夫","太史令"],"ans":2},{"kind":"mc","sec":"郡縣","src":"單元二 課題一 p.48","q":"秦朝地方行政制度是？","opts":["封建諸侯世襲","廢封建、行郡縣，長官由皇帝任免","只設王畿不分郡","全交匈奴管理"],"ans":1},{"kind":"mc","sec":"文字","src":"單元二 課題一 p.48","q":"秦統一文字，李斯所定主要字體是？","opts":["楷書","小篆","甲骨文","行書"],"ans":1},{"kind":"mc","sec":"貨幣","src":"單元二 課題一 p.48","q":"秦朝下幣的形狀特徵是？","opts":["刀形幣","圓形方孔「半兩錢」","貝殼幣","僅用黃金紙幣"],"ans":1},{"kind":"mc","sec":"長城","src":"單元二 課題一 p.48","q":"蒙恬連接秦趙燕長城，西起臨洮、東至？","opts":["餘杭","遼東","番禺","敦煌"],"ans":1},{"kind":"mc","sec":"香港","src":"單元二 課題一 p.48","q":"秦設南海等郡後，香港地區屬？","opts":["南海郡番禺縣","河西四郡","安西都護府","江南河沿岸"],"ans":0},{"kind":"mc","sec":"速亡","src":"單元二 課題一 p.54","q":"陳勝、吳廣在大澤鄉起事的直接原因是？","opts":["失期當斬","被封為侯","獲賜田地","通過科舉"],"ans":0},{"kind":"mc","sec":"沙丘","src":"單元二 課題一 p.54","q":"沙丘之變中，趙高、李斯矯詔立誰為二世？","opts":["扶蘇","胡亥","子嬰","劉邦"],"ans":1},{"kind":"mc","sec":"楚漢","src":"單元二 課題一 p.54","q":"垓下之戰後，項羽最終？","opts":["建漢稱帝","烏江自刎","遷都咸陽","北擊匈奴"],"ans":1},{"kind":"mc","sec":"約法","src":"單元二 課題一 p.54","q":"劉邦入關中後「約法三章」有助？","opts":["失去民心","得民心","恢復封建六國","立刻焚書"],"ans":1},{"kind":"input","sec":"年號/年","src":"單元二 課題一 p.48","q":"秦統一六國的公元年前是？（填 221 即可）","ans":"221","accept":["221","前221","公元前221","前221年"]},{"kind":"input","sec":"人物","src":"單元二 課題一 p.54","q":"楚漢相爭中，烏江自刎的是？（兩個字）","ans":"項羽"}]},{"id":5,"unitKey":"u2","unit":"單元二　秦漢　統一國家的形成與中外文化交流","unitTitle":"單元二　秦漢","unitSubtitle":"統一國家的形成與中外文化交流","name":"課題二　兩漢的政治發展與中外文化交流","emoji":"🐪","color":"#d9480f","optional":false,"questions":[{"kind":"mc","sec":"漢初","src":"單元二 課題二 p.62","q":"漢高祖劉邦建漢後都城是？","opts":["咸陽","長安","建康","大興"],"ans":1},{"kind":"mc","sec":"文景","src":"單元二 課題二 p.62","q":"「文景之治」指漢初哪兩位皇帝的休養生息？","opts":["文帝、景帝","武帝、昭帝","光武、明帝","桓帝、靈帝"],"ans":0},{"kind":"mc","sec":"獨尊","src":"單元二 課題二 p.62","q":"漢武帝採納董仲舒建議，推行？","opts":["焚書坑儒","罷黜百家，獨尊儒術","兼愛非攻","尊王攘夷"],"ans":1},{"kind":"mc","sec":"年號","src":"單元二 課題二 p.62","q":"漢武帝首創的年號是？","opts":["貞觀","開元","建元","開皇"],"ans":2},{"kind":"mc","sec":"武功","src":"單元二 課題二 p.62","q":"把匈奴逐至大漠以北的名將包括？","opts":["張騫、班超","衞青、霍去病","蒙恬、章邯","郭子儀、李光弼"],"ans":1},{"kind":"mc","sec":"史記","src":"單元二 課題二 p.62","q":"司馬遷《史記》的體裁是？","opts":["編年體","紀傳體通史","只記神話","小說章回"],"ans":1},{"kind":"mc","sec":"王莽","src":"單元二 課題二 p.70","q":"王莽篡漢後建立的國號是？","opts":["周","新","魏","隋"],"ans":1},{"kind":"mc","sec":"東漢","src":"單元二 課題二 p.72","q":"光武帝劉秀建東漢，都城是？","opts":["長安","洛陽","咸陽","鄴"],"ans":1},{"kind":"mc","sec":"黃巾","src":"單元二 課題二 p.72","q":"黃巾起事領袖張角的口號是？","opts":["尊王攘夷","蒼天已死，黃天當立","王侯將相寧有種乎","遠交近攻"],"ans":1},{"kind":"mc","sec":"張騫","src":"單元二 課題二 p.78","q":"張騫出使的主要目的是聯合？","opts":["大月氏共抗匈奴","羅馬夾擊安息","日本遣唐使","高麗征百濟"],"ans":0},{"kind":"mc","sec":"班超","src":"單元二 課題二 p.78","q":"班超經營西域約多少年並重置西域都護府？","opts":["三年","約三十年","一百年","半年"],"ans":1},{"kind":"mc","sec":"絲路","src":"單元二 課題二 p.78","q":"絲綢之路得名因為？","opts":["只運石油","絲綢貿易","只運瓷器彈藥","只運糧食"],"ans":1},{"kind":"mc","sec":"蔡倫","src":"單元二 課題二 p.84","q":"東漢宦官蔡倫的重要貢獻是？","opts":["改良造紙術","發明火藥","開鑿大運河","編《本草綱目》"],"ans":0},{"kind":"mc","sec":"張衡","src":"單元二 課題二 p.84","q":"張衡的科技成就包括？","opts":["發明天文儀器","首創科舉殿試","連接長城","譯《大唐西域記》"],"ans":0},{"kind":"input","sec":"概念","src":"單元二 課題二 p.78","q":"因絲綢貿易得名、連接中西的陸路通道稱為？（四個字）","ans":"絲綢之路","accept":["絲綢之路","絲路"]},{"kind":"input","sec":"人物","src":"單元二 課題二 p.62","q":"向漢武帝提出「罷黜百家，獨尊儒術」的是？（三個字）","ans":"董仲舒"}]},{"id":6,"unitKey":"u3","unit":"單元三　三國兩晉南北朝　長期的分裂與南北方的發展","unitTitle":"單元三　三國兩晉南北朝","unitSubtitle":"長期的分裂與南北方的發展","name":"課題一　魏晉南北朝的分裂與政權的更替","emoji":"🐉","color":"#7048e8","optional":false,"questions":[{"kind":"mc","sec":"官渡","src":"單元三 課題一 p.92","q":"200 年官渡之戰，曹操以少勝多擊敗？","opts":["孫權","袁紹","劉備","苻堅"],"ans":1},{"kind":"mc","sec":"赤壁","src":"單元三 課題一 p.92","q":"208 年赤壁之戰的結果是？","opts":["曹操統一全國","孫劉聯軍勝曹，三分之勢成","蜀立刻滅魏","西晉建立"],"ans":1},{"kind":"mc","sec":"史實","src":"單元三 課題一 p.92","q":"課文提醒不可把小說當史實：借東風出自？","opts":["《三國志》原文","《三國演義》小說","《史記》","《漢書》"],"ans":1},{"kind":"mc","sec":"建國","src":"單元三 課題一 p.92","q":"220 年曹丕建立的政權是？","opts":["蜀","吳","魏","晉"],"ans":2},{"kind":"mc","sec":"蜀亡","src":"單元三 課題一 p.92","q":"263 年魏滅蜀時，蜀後主是？","opts":["劉備","劉禪","劉秀","劉淵"],"ans":1},{"kind":"mc","sec":"西晉","src":"單元三 課題一 p.98","q":"司馬炎篡魏建西晉，都城是？","opts":["建康","洛陽","長安（始終）","平城"],"ans":1},{"kind":"mc","sec":"八王","src":"單元三 課題一 p.98","q":"西晉「八王之亂」的背景包括？","opts":["武帝不分封宗室","惠帝痴愚、賈后干政、宗室擁兵","立刻統一南北","外戚完全無權"],"ans":1},{"kind":"mc","sec":"永嘉","src":"單元三 課題一 p.98","q":"永嘉之亂中陷洛陽、擄懷帝的是？","opts":["匈奴劉聰","鮮卑拓跋珪","羌人姚萇","氐人苻堅"],"ans":0},{"kind":"mc","sec":"東晉","src":"單元三 課題一 p.98","q":"司馬睿在建康稱帝，史稱？","opts":["西晉","東晉","北魏","前秦"],"ans":1},{"kind":"mc","sec":"淝水","src":"單元三 課題一 p.98","q":"383 年淝水之戰，前秦苻堅大敗於？","opts":["東晉","北魏","蜀漢","陳朝"],"ans":0},{"kind":"mc","sec":"南朝","src":"單元三 課題一 p.98","q":"南朝四朝依次是？","opts":["宋齊梁陳","魏蜀吳晉","秦漢唐宋","北魏東魏西魏北齊"],"ans":0},{"kind":"mc","sec":"北魏統一","src":"單元三 課題一 p.98","q":"439 年統一北方、結束十六國的是？","opts":["東晉","北魏","隋","陳"],"ans":1},{"kind":"input","sec":"戰役","src":"單元三 課題一 p.92","q":"孫劉聯軍火燒曹軍連環船的著名戰役是？（三個字）","ans":"赤壁之戰","accept":["赤壁之戰","赤壁"]},{"kind":"input","sec":"成語","src":"單元三 課題一 p.98","q":"東晉初「王與馬，共天下」的「王」指哪一族？（一個字／兩個字）","ans":"王","accept":["王","王氏","王導"]}]},{"id":7,"unitKey":"u3","unit":"單元三　三國兩晉南北朝　長期的分裂與南北方的發展","unitTitle":"單元三　三國兩晉南北朝","unitSubtitle":"長期的分裂與南北方的發展","name":"課題二　北方政局與江南地區的開發","emoji":"🌾","color":"#2f9e44","optional":false,"questions":[{"kind":"mc","sec":"五胡","src":"單元三 課題二 p.106","q":"「五胡」不包括下列哪一族？","opts":["匈奴","鮮卑","羌","突厥"],"ans":3},{"kind":"mc","sec":"內徙","src":"單元三 課題二 p.106","q":"西晉胡人大量內徙的主要地區是？","opts":["珠江口","黃河上、中游","青藏高原","台灣"],"ans":1},{"kind":"mc","sec":"孝文","src":"單元三 課題二 p.108","q":"北魏孝文帝的名字（拓跋宏）漢化後改姓？","opts":["李","元","司馬","楊"],"ans":1},{"kind":"mc","sec":"遷都","src":"單元三 課題二 p.108","q":"孝文帝正式遷都到？","opts":["平城","洛陽","建康","長安"],"ans":1},{"kind":"mc","sec":"漢化","src":"單元三 課題二 p.108","q":"孝文帝漢化措施不包括？","opts":["說漢語、穿漢服","改漢姓、與漢人通婚","禁止南遷者歸葬北方","全面恢復鮮卑舊俗、禁漢語"],"ans":3},{"kind":"mc","sec":"平城","src":"單元三 課題二 p.108","q":"遷都前北魏舊都平城即今？","opts":["南京","山西大同","杭州","廣州"],"ans":1},{"kind":"mc","sec":"六朝","src":"單元三 課題二 p.114","q":"「六朝」都城都在今？","opts":["北京","南京","西安","洛陽"],"ans":1},{"kind":"mc","sec":"南遷","src":"單元三 課題二 p.114","q":"東晉為南遷人士設置的行政區稱為？","opts":["郡縣制","僑州、僑郡","藩鎮","都護府"],"ans":1},{"kind":"mc","sec":"開發","src":"單元三 課題二 p.114","q":"江南開發的有利條件不包括？","opts":["氣候暖濕、河道密","相對安定","孫吳屯田水利","全年乾旱少水"],"ans":3},{"kind":"mc","sec":"影響","src":"單元三 課題二 p.114","q":"江南開發的長遠影響包括？","opts":["拉近南北差距，長江流域成新經濟區","令北方永遠荒廢、無人居住","停止一切商業","取消建康城市"],"ans":0},{"kind":"mc","sec":"建康","src":"單元三 課題二 p.114","q":"建康著名的士族聚居巷弄是？","opts":["烏衣巷","長安街","王府井","南京路（上海）"],"ans":0},{"kind":"input","sec":"人物","src":"單元三 課題二 p.108","q":"推動遷都洛陽與大規模漢化的北魏皇帝是？（三個字／四個字）","ans":"孝文帝","accept":["孝文帝","北魏孝文帝","拓跋宏"]},{"kind":"input","sec":"概念","src":"單元三 課題二 p.106","q":"匈奴、鮮卑、羌、氐、羯合稱？（兩個字）","ans":"五胡"}]},{"id":8,"unitKey":"u3","unit":"單元三　三國兩晉南北朝　長期的分裂與南北方的發展","unitTitle":"單元三　三國兩晉南北朝","unitSubtitle":"長期的分裂與南北方的發展","name":"課題三　魏晉南北朝的社會文化發展（選教）","emoji":"🗿","color":"#ae3ec9","optional":true,"questions":[{"kind":"mc","sec":"士族","src":"單元三 課題三 p.120","q":"士族是指？","opts":["完全沒有土地的農民","擁有土地財富政治權勢、世代為官的世家","只做生意的商人","外國使節"],"ans":1},{"kind":"mc","sec":"寒門","src":"單元三 課題三 p.120","q":"庶族又稱為？","opts":["清流","寒門","士族","外戚"],"ans":1},{"kind":"mc","sec":"九品","src":"單元三 課題三 p.120","q":"九品中正制選官較重視？","opts":["家世門第","只考武藝","抽籤","外國人優先"],"ans":0},{"kind":"mc","sec":"局面","src":"單元三 課題三 p.120","q":"「上品無寒門、下品無勢族」反映？","opts":["寒門壟斷高官","士族壟斷高官","完全平等選官","只選宦官"],"ans":1},{"kind":"mc","sec":"石窟","src":"單元三 課題三 p.124","q":"石窟藝術源於？","opts":["印度","日本","南極","美洲"],"ans":0},{"kind":"mc","sec":"四大石窟","src":"單元三 課題三 p.124","q":"下列哪項屬於中國著名四大石窟？","opts":["莫高窟","兵馬俑坑","圓明園","頤和園"],"ans":0},{"kind":"mc","sec":"佛像","src":"單元三 課題三 p.124","q":"早期佛像受犍陀羅風格影響，後來？","opts":["愈趨漢化","完全消失","改成伊斯蘭風格","只剩希臘神像"],"ans":0},{"kind":"mc","sec":"背景","src":"單元三 課題三 p.124","q":"魏晉南北朝石窟興盛的原因包括？","opts":["君主提倡、百姓戰亂中求慰藉","禁止佛教","沒有絲路交流","只用道教建塔"],"ans":0},{"kind":"input","sec":"石窟","src":"單元三 課題三 p.124","q":"甘肅敦煌鳴沙山的著名石窟是？（三個字）","ans":"莫高窟"},{"kind":"input","sec":"概念","src":"單元三 課題三 p.120","q":"世代為官、壟斷清流高官的世家稱為？（兩個字）","ans":"士族"}]},{"id":9,"unitKey":"u4","unit":"單元四　隋唐　隋唐的統一、發展與開放的社會","unitTitle":"單元四　隋唐（樣本）","unitSubtitle":"隋唐的統一、發展與開放的社會","name":"課題一　隋朝的統一與開皇之治","emoji":"👑","color":"#c92a2a","optional":false,"questions":[{"kind":"mc","sec":"建隋","src":"單元四 課題一 p.138","q":"581 年楊堅廢北周靜帝自立，國號？","opts":["唐","隋","周","新"],"ans":1},{"kind":"mc","sec":"統一","src":"單元四 課題一 p.138","q":"589 年隋滅陳，結束的分裂局面約？","opts":["十年","近三百年","五十年","一千年"],"ans":1},{"kind":"mc","sec":"都城","src":"單元四 課題一 p.138","q":"隋文帝都城大興即今？","opts":["南京","西安","北京","杭州"],"ans":1},{"kind":"mc","sec":"貌閱","src":"單元四 課題一 p.140","q":"「大索貌閱」的作用是？","opts":["當面核對戶口年齡相貌，懲虛報","只檢查兵器","選美比賽","丈量長城"],"ans":0},{"kind":"mc","sec":"均田","src":"單元四 課題一 p.140","q":"均田制下，死後須還官的田是？","opts":["永業田","露田","公田（井田中）","私田可買賣且永不還"],"ans":1},{"kind":"mc","sec":"租庸調","src":"單元四 課題一 p.140","q":"租庸調中，「庸」主要指？","opts":["田租糧食","戶調布帛","男丁力役","商業稅"],"ans":2},{"kind":"mc","sec":"倉窖","src":"單元四 課題一 p.140","q":"各地儲民糧、災時賑濟的是？","opts":["義倉","太學","藩鎮","市舶使"],"ans":0},{"kind":"mc","sec":"影響","src":"單元四 課題一 p.140","q":"開皇之治的成果包括？","opts":["戶口田地大增、國庫充實","立刻引發安史之亂","廢除所有倉儲","禁止節儉"],"ans":0},{"kind":"input","sec":"年號","src":"單元四 課題一 p.138","q":"隋文帝年號、亦是治世名稱是？（兩個字）","ans":"開皇","accept":["開皇","開皇之治"]}]},{"id":10,"unitKey":"u4","unit":"單元四　隋唐　隋唐的統一、發展與開放的社會","unitTitle":"單元四　隋唐（樣本）","unitSubtitle":"隋唐的統一、發展與開放的社會","name":"課題二　隋代大運河的開通與作用","emoji":"🛶","color":"#1c7ed6","optional":false,"questions":[{"kind":"mc","sec":"背景","src":"單元四 課題二 p.146","q":"開鑿大運河的重要背景是？","opts":["關中糧食充足無需漕運","大興、洛陽糧食不足，需江南漕運","只為觀賞風景","禁止南北交流"],"ans":1},{"kind":"mc","sec":"中心","src":"單元四 課題二 p.147","q":"隋代大運河以哪裡為中心？","opts":["建康","洛陽","餘杭","涿郡"],"ans":1},{"kind":"mc","sec":"五渠","src":"單元四 課題二 p.147","q":"文帝開鑿、改善大興至潼關漕運的是？","opts":["通濟渠","廣通渠","永濟渠","江南河"],"ans":1},{"kind":"mc","sec":"永濟","src":"單元四 課題二 p.147","q":"永濟渠北達？","opts":["餘杭（杭州）","涿郡（今北京一帶）","番禺","臨洮"],"ans":1},{"kind":"mc","sec":"江南河","src":"單元四 課題二 p.147","q":"江南河南抵？","opts":["涿郡","餘杭（今杭州）","大同","咸陽"],"ans":1},{"kind":"mc","sec":"貫通","src":"單元四 課題二 p.147","q":"大運河貫通的水系不包括？","opts":["海河、黃河","淮水、長江","錢塘江","珠江"],"ans":3},{"kind":"mc","sec":"作用","src":"單元四 課題二 p.148","q":"大運河的作用包括？","opts":["鞏固統一、促進南北物資文化交流","完全阻隔南北","只方便征高麗無關民生","令沿岸城市全部衰落"],"ans":0},{"kind":"mc","sec":"代價","src":"單元四 課題二 p.148","q":"開河的負面影響是？","opts":["民力負擔沉重，加劇隋末民怨","無人服役","稅收自動減少至零","立刻帶來貞觀之治"],"ans":0},{"kind":"input","sec":"概念","src":"單元四 課題二 p.146","q":"把糧食物資經水路運到都城或軍事要地稱為？（兩個字）","ans":"漕運"}]},{"id":11,"unitKey":"u4","unit":"單元四　隋唐　隋唐的統一、發展與開放的社會","unitTitle":"單元四　隋唐（樣本）","unitSubtitle":"隋唐的統一、發展與開放的社會","name":"課題三　唐的建國與盛世","emoji":"🏛️","color":"#f59f00","optional":false,"questions":[{"kind":"mc","sec":"建唐","src":"單元四 課題三 p.150","q":"618 年李淵建唐，都城改名為？","opts":["大興","長安","洛陽（唯一）","江都"],"ans":1},{"kind":"mc","sec":"玄武門","src":"單元四 課題三 p.150","q":"玄武門之變後即位的是？","opts":["李建成","李世民（唐太宗）","李淵繼續親政不退","武則天"],"ans":1},{"kind":"mc","sec":"三省","src":"單元四 課題三 p.152","q":"三省中負責草詔的是？","opts":["門下省","中書省","尚書省","御史台"],"ans":1},{"kind":"mc","sec":"用人","src":"單元四 課題三 p.152","q":"「房謀杜斷」指房玄齡與？","opts":["杜如晦","魏徵","李靖","姚崇"],"ans":0},{"kind":"mc","sec":"科舉","src":"單元四 課題三 p.152","q":"唐代科舉最受重視的科目包括？","opts":["明經、進士","只有武舉","只有畫科","禁止平民應考"],"ans":0},{"kind":"mc","sec":"天可汗","src":"單元四 課題三 p.152","q":"西北各族尊唐太宗為？","opts":["始皇帝","天可汗","假皇帝","西楚霸王"],"ans":1},{"kind":"mc","sec":"文成","src":"單元四 課題三 p.152","q":"文成公主入藏和親的對象是？","opts":["突厥","吐蕃","回紇","南詔"],"ans":1},{"kind":"mc","sec":"武后","src":"單元四 課題三 p.160","q":"武則天稱帝後的國號是？","opts":["唐","周","隋","新"],"ans":1},{"kind":"mc","sec":"唯一","src":"單元四 課題三 p.160","q":"中國歷史上唯一的女皇帝是？","opts":["呂后","武則天","慈禧","王政君"],"ans":1}]},{"id":12,"unitKey":"u4","unit":"單元四　隋唐　隋唐的統一、發展與開放的社會","unitTitle":"單元四　隋唐（樣本）","unitSubtitle":"隋唐的統一、發展與開放的社會","name":"課題四　安史之亂與唐的衰亡","emoji":"🔥","color":"#e03131","optional":false,"questions":[{"kind":"mc","sec":"背景","src":"單元四 課題四 p.162","q":"安史之亂前，邊防形成「內輕外重」與？","opts":["十節度使兼軍政財","完全取消節度使","三省權力更大","科舉廢止"],"ans":0},{"kind":"mc","sec":"起兵","src":"單元四 課題四 p.162","q":"755 年安祿山與史思明起兵之地是？","opts":["范陽","嶺南","吐蕃","江南"],"ans":0},{"kind":"mc","sec":"馬嵬","src":"單元四 課題四 p.162","q":"馬嵬之變中被賜死的是？","opts":["楊國忠與楊貴妃（貴妃被賜死）","安祿山","郭子儀","魏徵"],"ans":0},{"kind":"mc","sec":"結束","src":"單元四 課題四 p.162","q":"安史之亂歷時約？","opts":["一年","八年","四十年","二百年"],"ans":1},{"kind":"mc","sec":"影響","src":"單元四 課題四 p.162","q":"亂後三大問題不包括？","opts":["藩鎮割據","宦官干政","牛李黨爭","立刻恢復「天可汗」霸權且無藩鎮"],"ans":3},{"kind":"mc","sec":"藩鎮","src":"單元四 課題四 p.168","q":"河北最驕橫的藩鎮常指？","opts":["魏博、成德、盧龍","只餘嶺南一鎮","只有關中禁軍","市舶使衙門"],"ans":0},{"kind":"mc","sec":"甘露","src":"單元四 課題四 p.168","q":"「甘露之變」與哪一問題相關？","opts":["宦官勢力","均田制","絲綢之路開通","井田恢復"],"ans":0},{"kind":"mc","sec":"黃巢","src":"單元四 課題四 p.168","q":"黃巢起事後曾入長安稱？","opts":["大燕","大齊","大周","大新"],"ans":1}]},{"id":13,"unitKey":"u4","unit":"單元四　隋唐　隋唐的統一、發展與開放的社會","unitTitle":"單元四　隋唐（樣本）","unitSubtitle":"隋唐的統一、發展與開放的社會","name":"課題五　開放的唐朝社會（選教）","emoji":"🌏","color":"#0c8599","optional":true,"questions":[{"kind":"mc","sec":"婦女","src":"單元四 課題五 p.174","q":"唐代婦女生活受胡風影響，表現包括？","opts":["可騎馬出遊、甚至男裝","完全不可出門","禁止讀書","婚姻全無自由"],"ans":0},{"kind":"mc","sec":"婚姻","src":"單元四 課題五 p.174","q":"關於唐代婦女地位，課文指出？","opts":["《唐律》不許妻子提出離婚","改嫁較普遍，《唐律》許妻子提出離婚","完全沒有識字婦女","不可參與任何政治"],"ans":1},{"kind":"mc","sec":"玄奘","src":"單元四 課題五 p.178","q":"玄奘西行出發約在？","opts":["貞觀元年（627）","開元元年","天寶十四載","開皇元年"],"ans":0},{"kind":"mc","sec":"那爛陀","src":"單元四 課題五 p.178","q":"玄奘在印度入哪所著名寺院學習？","opts":["少林寺","那爛陀寺","白馬寺","莫高窟"],"ans":1},{"kind":"mc","sec":"譯經","src":"單元四 課題五 p.178","q":"玄奘帶回大量梵文佛經並創？","opts":["法相宗（唯識宗）","淨土以外的道教","科舉制","藩鎮制"],"ans":0},{"kind":"mc","sec":"西域記","src":"單元四 課題五 p.178","q":"玄奘口述、記錄西行見聞的著作是？","opts":["《佛國記》","《大唐西域記》","《史記》","《本草綱目》"],"ans":1},{"kind":"mc","sec":"廣州","src":"單元四 課題五 p.182","q":"唐代主要外港、設蕃坊的是？","opts":["長安","廣州","平城","大同"],"ans":1},{"kind":"mc","sec":"屯門","src":"單元四 課題五 p.182","q":"唐代於珠江口設鎮、與今香港相關的是？","opts":["屯門鎮","安西都護府","六鎮","市舶使設於洛陽"],"ans":0}]}];
+
+let soundOn = true;
+let audioCtx = null;
+let totalScore = 0;
+let cleared = {};
+let timerMins = 15;
+let paperDeadline = 0, paperTimer = null, paperTimedOut = false;
+let curIsland = null, qi = 0, paperScore = 0, paperTotal = 0;
+let paperLog = [], locked = false, firstTryOk = true;
+let qTick = null;
+let hintUsed = false;
+let clueRevealed = false;
+let toastTimer = null;
+let viewUnit = null; // null = unit menu; else unitKey
+
+const OBJ_ICONS = ["📜","🏺","🪙","🗡️","🧱","⚱️","🏯","🧭","📒","🛎️","🪔","📦","🪧","💎","🔑"];
+const DECOY_ICONS = ["🍃","🪨","☁️","🪶","🪵","🦴","🐚","🍂"];
+const DECOY_MSGS = ["呢度冇答案～","只係裝飾嚟！","再搵過啦～","唔係呢度呀"];
+const WRONG_MSGS = ["唔係呢度～","再搵搵！","差少少～","換個方向！"];
+const CLUE_FAKE = ["空白竹簡","舊帛書殘片","無關字詞","試試別處","空白線索","雜物"];
+
+function esc(s){ return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function norm(s){
+  s=(s||"").replace(/\s/g,"").replace(/　/g,"");
+  s=s.replace(/[Ａ-Ｚａ-ｚ０-９]/g,ch=>String.fromCharCode(ch.charCodeAt(0)-0xFEE0));
+  return s;
+}
+function matchInput(user, item){
+  const u=norm(user); if(!u) return false;
+  const answers=[item.ans].concat(item.accept||[]);
+  return answers.some(a=>norm(a)===u || norm(a)===u.replace(/[。！？!?，,、]/g,""));
+}
+function shuffle(arr){
+  const a=arr.slice();
+  for(let i=a.length-1;i>0;i--){ const j=(Math.random()*(i+1))|0; [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+function rand(a,b){ return a+Math.random()*(b-a); }
+function ensureAudio(){
+  if(!audioCtx){ try{ audioCtx=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} }
+  if(audioCtx && audioCtx.state==="suspended") audioCtx.resume();
+}
+function beep(kind){
+  if(!soundOn) return;
+  ensureAudio(); if(!audioCtx) return;
+  const o=audioCtx.createOscillator(), g=audioCtx.createGain();
+  o.connect(g); g.connect(audioCtx.destination);
+  const now=audioCtx.currentTime;
+  if(kind==="ok"){ o.type="triangle"; o.frequency.setValueAtTime(523,now); o.frequency.exponentialRampToValueAtTime(784,now+.12); g.gain.setValueAtTime(.0001,now); g.gain.exponentialRampToValueAtTime(.18,now+.02); g.gain.exponentialRampToValueAtTime(.0001,now+.28); o.start(now); o.stop(now+.3); }
+  else if(kind==="bad"){ o.type="square"; o.frequency.setValueAtTime(200,now); o.frequency.linearRampToValueAtTime(140,now+.15); g.gain.setValueAtTime(.0001,now); g.gain.exponentialRampToValueAtTime(.1,now+.01); g.gain.exponentialRampToValueAtTime(.0001,now+.2); o.start(now); o.stop(now+.22); }
+  else if(kind==="hint"){ o.type="sine"; o.frequency.setValueAtTime(440,now); o.frequency.exponentialRampToValueAtTime(880,now+.18); g.gain.setValueAtTime(.0001,now); g.gain.exponentialRampToValueAtTime(.1,now+.02); g.gain.exponentialRampToValueAtTime(.0001,now+.22); o.start(now); o.stop(now+.24); }
+  else { o.type="sine"; o.frequency.value=660; g.gain.setValueAtTime(.0001,now); g.gain.exponentialRampToValueAtTime(.08,now+.01); g.gain.exponentialRampToValueAtTime(.0001,now+.1); o.start(now); o.stop(now+.12); }
+}
+function mascotSVG(){
+  return `<svg class="mascot" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <ellipse cx="60" cy="108" rx="30" ry="6" fill="rgba(0,0,0,.25)"/>
+  <rect x="28" y="30" width="64" height="70" rx="8" fill="#f3e5c2" stroke="#8b6914" stroke-width="3"/>
+  <rect x="34" y="38" width="52" height="54" rx="4" fill="#fff8ef"/>
+  <line x1="42" y1="50" x2="78" y2="50" stroke="#5c3d1e" stroke-width="2.5"/>
+  <line x1="42" y1="62" x2="72" y2="62" stroke="#8b6914" stroke-width="2"/>
+  <line x1="42" y1="74" x2="68" y2="74" stroke="#8b6914" stroke-width="2"/>
+  <circle cx="90" cy="28" r="16" fill="#c92a2a" stroke="#7a1c1c" stroke-width="2"/>
+  <text x="90" y="33" text-anchor="middle" font-size="14" font-weight="900" fill="#fff8ef">史</text>
+  <text x="60" y="100" text-anchor="middle" font-size="10" font-weight="800" fill="#5c3d1e">竹簡仔</text>
+  </svg>`;
+}
+function updateHud(){
+  document.getElementById("hudScore").textContent="分數 "+totalScore;
+  document.getElementById("hudDone").textContent="已完成 "+Object.keys(cleared).length+" 課題";
+}
+function shade(hex){
+  try{
+    const n=parseInt(hex.slice(1),16); let r=(n>>16)&255,g=(n>>8)&255,b=n&255;
+    r=Math.max(0,r-40); g=Math.max(0,g-40); b=Math.max(0,b-40);
+    return "#"+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1);
+  }catch(e){ return hex; }
+}
+function sceneTheme(unitKey, sec){
+  const s=sec||"";
+  if(unitKey==="u1" || /夏|商|周|封建|石器|炎黃|春秋|戰國|百家|商鞅/.test(s))
+    return {a:"#d4a574", b:"#8b6914", deco:["🏺","🦴","📜","⚔️","🪙","⚱️","🏯"], floor:"#5c3d1e"};
+  if(unitKey==="u2" || /秦|漢|長城|絲路|匈奴|西域|兵馬/.test(s))
+    return {a:"#c9a66b", b:"#868e96", deco:["🧱","🗿","🐪","🏯","🪙","📜","🧭"], floor:"#3d2914"};
+  if(unitKey==="u3" || /三國|魏|晉|南朝|北魏|石窟|士族|江南/.test(s))
+    return {a:"#b197fc", b:"#5f3dc4", deco:["🐉","⚔️","🌾","🗿","🏯","🍃","🪷"], floor:"#364fc7"};
+  if(unitKey==="u4" || /隋|唐|運河|貞觀|安史|玄奘|開放/.test(s))
+    return {a:"#ffa8a8", b:"#c92a2a", deco:["🛶","👑","🏛️","📜","🌏","⛵","🔔"], floor:"#7a1c1c"};
+  return {a:"#e8d5a8", b:"#8b4513", deco:["📜","🔍","⭐","🏺","🧭"], floor:"#3d2914"};
+}
+function scatterPositions(n){
+  n=Math.max(1,n|0);
+  let cols, rows;
+  if(n<=1){ cols=1; rows=1; }
+  else if(n===2){ cols=2; rows=1; }
+  else if(n<=4){ cols=2; rows=2; }
+  else if(n<=6){ cols=3; rows=2; }
+  else { cols=3; rows=3; }
+  while(cols*rows<n){ if(cols<=rows) cols++; else rows++; }
+  const marginX=2, marginY=5;
+  const cellW=(100-2*marginX)/cols;
+  const cellH=(100-2*marginY)/rows;
+  const footW=Math.min(32, cellW*0.92);
+  const footH=Math.min(22, cellH*0.85);
+  const cells=[];
+  for(let r=0;r<rows;r++) for(let c=0;c<cols;c++) cells.push([c,r]);
+  const sh=shuffle(cells);
+  const out=[];
+  for(let i=0;i<n;i++){
+    const [c,r]=sh[i%sh.length];
+    const cellLeft=marginX+c*cellW;
+    const cellTop=marginY+r*cellH;
+    const maxLeft=cellLeft+Math.max(0, cellW-footW);
+    const maxTop=cellTop+Math.max(0, cellH-footH);
+    const baseLeft=(cellLeft+maxLeft)/2;
+    const baseTop=(cellTop+maxTop)/2;
+    let left=baseLeft+rand(-3,3);
+    let top=baseTop+rand(-3,3);
+    left=Math.max(cellLeft, Math.min(maxLeft, left));
+    top=Math.max(cellTop, Math.min(maxTop, top));
+    left=Math.max(1, Math.min(100-footW-1, left));
+    top=Math.max(2, Math.min(100-footH-2, top));
+    out.push({left, top, delay: rand(0,1.0), dur: rand(2.4,3.6)});
+  }
+  return out;
+}
+function respreadObjects(){
+  const host=document.getElementById("sceneObjs");
+  if(!host) return;
+  const btns=[...host.querySelectorAll(".find-obj")];
+  if(!btns.length){ showToast("場景未有物件"); return; }
+  const pos=scatterPositions(btns.length);
+  btns.forEach((btn,i)=>{
+    const p=pos[i];
+    btn.style.left=p.left+"%";
+    btn.style.top=p.top+"%";
+    btn.style.animationDuration=p.dur+"s";
+    btn.style.animationDelay=p.delay+"s";
+  });
+  showToast("已重新散開～");
+  beep("tap");
+}
+function showToast(msg){
+  const el=document.getElementById("sceneToast");
+  if(!el) return;
+  el.textContent=msg;
+  el.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>el.classList.remove("show"), 1100);
+}
+function renderMap(){
+  const map=document.getElementById("map");
+  if(!viewUnit){
+    let html=`<div class="map-hero">${mascotSVG()}<div><h2>歡迎嚟到「中國歷史尋找答案」！</h2>
+    <p>我係吉祥物「竹簡仔」📜　先揀一個單元，再入課題場景搵答案。練習模式：點錯唔提早公佈答案；只計第一次答對。可開關計時同音效。</p></div></div>`;
+    html+=`<div class="unit-block"><h3>📚 揀單元（第一冊）</h3><div class="island-grid">`;
+    UNITS_META.forEach(U=>{
+      html+=`<button type="button" class="unit-card" data-uk="${U.key}" style="background:linear-gradient(165deg,${U.color},${shade(U.color)})">
+        <span class="emo">${U.emoji}</span><span class="ttl">${esc(U.title)}</span>
+        <div class="meta">${esc(U.subtitle)}</div>
+        <div class="meta">${U.lessonCount} 課題 · ${U.qCount} 題</div></button>`;
+    });
+    html+=`</div></div>`;
+    map.innerHTML=html;
+    map.querySelectorAll("button.unit-card").forEach(b=>{
+      b.onclick=()=>{ viewUnit=b.dataset.uk; renderMap(); beep("tap"); };
+    });
+  } else {
+    const U=UNITS_META.find(x=>x.key===viewUnit);
+    const lessons=ISLANDS.filter(I=>I.unitKey===viewUnit);
+    let html=`<div class="back-chip"><button type="button" id="backUnits">← 返回單元選單</button></div>`;
+    html+=`<div class="map-hero">${mascotSVG()}<div><h2>${U?U.emoji+" "+esc(U.title):"單元"}</h2>
+    <p>${U?esc(U.subtitle):""}　揀課題進入場景；標「選教」嘅課題亦可練習。</p></div></div>`;
+    html+=`<div class="unit-block"><h3>🗺️ 課題場景</h3><div class="island-grid">`;
+    lessons.forEach(I=>{
+      const done=cleared[I.id]?" done":"";
+      html+=`<button type="button" class="island${done}" data-id="${I.id}" style="background:linear-gradient(165deg,${I.color},${shade(I.color)})">
+        <span class="emo">${I.emoji}</span><span class="ttl">${esc(I.name)}</span>
+        <div class="meta">${I.questions.length} 題 · 場景探索${cleared[I.id]?" · ✓ 過關":""}</div>
+        ${I.optional?'<span class="opt-tag">選教</span>':''}</button>`;
+    });
+    html+=`</div></div>`;
+    map.innerHTML=html;
+    document.getElementById("backUnits").onclick=()=>{ viewUnit=null; renderMap(); };
+    map.querySelectorAll("button.island").forEach(b=>{
+      b.onclick=()=>{ curIsland=ISLANDS.find(x=>x.id===+b.dataset.id); showSetup(); };
+    });
+  }
+  try{ if(window.P5Platform && P5Platform.hasPlayer){ P5Platform.showBadge(); } }catch(_p5e){}
+  updateHud();
+}
+function showPanel(show){
+  const p=document.getElementById("panel");
+  p.classList.toggle("show",!!show);
+  if(!show){ clearPaperTimer(); clearQTick(); document.body.style.overflow=""; }
+  else document.body.style.overflow="hidden";
+}
+function clearPaperTimer(){ if(paperTimer){ clearInterval(paperTimer); paperTimer=null; } }
+function clearQTick(){ if(qTick){ clearInterval(qTick); qTick=null; } }
+function formatMmSs(sec){ sec=Math.max(0,sec|0); const m=(sec/60)|0,s=sec%60; return m+":"+(s<10?"0":"")+s; }
+
+function showSetup(){
+  paperTimedOut=false; locked=false;
+  document.getElementById("ptitle").textContent=curIsland.emoji+" "+curIsland.name;
+  document.getElementById("ptop").innerHTML="";
+  const back=document.createElement("button"); back.type="button"; back.textContent="← 返回課題"; back.onclick=()=>{ showPanel(false); renderMap(); };
+  document.getElementById("ptop").appendChild(back);
+  const body=document.getElementById("pbody");
+  const n=curIsland.questions.length;
+  body.innerHTML=`<div class="subline">${esc(curIsland.unitTitle||"")} · 練習模式 · 場景探索 · 共 ${n} 題${curIsland.optional?" · 選教":""}</div>
+  <div class="timer-box"><strong>⏱ 全卷計時（預設 15 分鐘）</strong>
+  <div class="row" id="timerRow"></div>
+  <p style="margin:8px 0 0;font-size:12.5px;color:#5c3d1e;font-weight:700">進入場景後，喺浮動竹簡／青銅器／卷軸之間搵啱答案。答錯要繼續搵，只計第一次答對。可用「微光提示」短暫照亮未試過嘅物件。</p></div>
+  <button type="button" class="go" id="startBtn">🔍 進入場景尋找答案！</button>`;
+  const row=document.getElementById("timerRow");
+  [[0,"唔計時"],[10,"10 分鐘"],[15,"15 分鐘"],[20,"20 分鐘"]].forEach(([m,lab])=>{
+    const labEl=document.createElement("label");
+    if(timerMins===m) labEl.classList.add("on");
+    labEl.innerHTML=`<input type="radio" name="tm" value="${m}" ${timerMins===m?"checked":""}> ${lab}`;
+    labEl.querySelector("input").onchange=()=>{ timerMins=m; row.querySelectorAll("label").forEach(x=>x.classList.remove("on")); labEl.classList.add("on"); };
+    row.appendChild(labEl);
+  });
+  document.getElementById("startBtn").onclick=()=>startPaper();
+  showPanel(true); beep("tap");
+}
+function startPaper(){
+  qi=0; paperScore=0; paperLog=[]; paperTimedOut=false; locked=false;
+  paperTotal=curIsland.questions.length;
+  clearPaperTimer();
+  if(timerMins>0){
+    paperDeadline=Date.now()+timerMins*60*1000;
+    paperTimer=setInterval(()=>{
+      if(Date.now()>=paperDeadline){ paperTimedOut=true; clearPaperTimer(); settle(true); }
+      else {
+        const el=document.getElementById("paperLeft");
+        if(el) el.textContent="剩餘 "+formatMmSs(((paperDeadline-Date.now())/1000)|0);
+      }
+    },250);
+  }
+  showQ();
+}
+function mixMc(item){
+  if(item.kind!=="mc") return item;
+  const opts=item.opts.map((t,i)=>({t,i}));
+  const sh=shuffle(opts);
+  return Object.assign({}, item, {opts:sh.map(o=>o.t), ans:sh.findIndex(o=>o.i===item.ans), _orig:item});
+}
+function correctText(item){
+  if(item.kind==="mc") return item.opts[item.ans];
+  return item.ans+(item.accept&&item.accept.length?"（亦可："+item.accept.join("／")+"）":"");
+}
+function celebrate(){
+  const card=document.getElementById("card"); card.classList.add("celeb");
+  const fx=document.getElementById("fx");
+  const bits=["⭐","✨","🎉","📜","🌟","🏆","🏺","🔍"];
+  for(let i=0;i<14;i++){
+    const d=document.createElement("div"); d.className="bit"; d.textContent=bits[i%bits.length];
+    d.style.left=(8+Math.random()*84)+"%"; d.style.animationDelay=(Math.random()*0.3)+"s";
+    fx.appendChild(d); setTimeout(()=>d.remove(),1600);
+  }
+  const praises=[["搵到啦！","📜"],["勁呀！","💪"],["史學達人！","🏺"],["太棒啦！","🎉"],["Perfect！","⭐"],["聰明啦！","🧭"]];
+  const pick=praises[(Math.random()*praises.length)|0];
+  const banner=document.createElement("div"); banner.className="praise";
+  banner.innerHTML=`<span class="emoji">${pick[1]}</span><span class="text">${pick[0]}</span>`;
+  card.appendChild(banner); setTimeout(()=>banner.remove(),1700);
+}
+function afterAnswer(ok, detail, pts){
+  const why=document.getElementById("why");
+  if(ok){
+    beep("ok"); celebrate();
+    if(pts) paperScore+=pts;
+    why.innerHTML=firstTryOk?`<span style="color:#087f5b">✓ 第一次搵啱！+${pts} 分</span>`:`<span style="color:#087f5b">✓ 搵到啦！（非首次，+0 分）</span>`;
+    paperLog.push({q:curIsland._cur.q, ok:firstTryOk&&!!pts, first:firstTryOk, user:detail, correct:correctText(curIsland._cur), src:curIsland._cur.src, pts:firstTryOk?pts:0});
+    locked=true;
+    setTimeout(()=>{ qi++; showQ(); }, 1000);
+  } else {
+    beep("bad");
+    firstTryOk=false;
+    if(why) why.innerHTML=`<span style="color:#c92a2a">未啱呢～繼續喺場景搵！💪</span>`;
+  }
+}
+
+function buildSceneShell(theme, timerHtml, srcHtml, qText, extraMission){
+  const decos=theme.deco||[];
+  let decoHtml="";
+  const places=[[6,8],[82,10],[18,22],[70,20],[88,40],[4,55],[90,68]];
+  places.forEach((p,i)=>{
+    const emo=decos[i%decos.length];
+    decoHtml+=`<div class="scene-deco d${(i%3)+1}" style="left:${p[0]}%;top:${p[1]}%">${emo}</div>`;
+  });
+  return `${timerHtml}
+  <div class="score-pill"><span>第 ${qi+1} / ${paperTotal} 題</span><span>本課題 ${paperScore} 分</span></div>
+  <div class="task-card">
+    <div class="mission">🔍 ${extraMission||"請在場景中找出正確答案"}</div>
+    <div>${srcHtml}</div>
+    <p class="q">${esc(qText)}</p>
+  </div>
+  <div class="scene-wrap" id="sceneWrap" style="--scene-a:${theme.a};--scene-b:${theme.b}">
+    <div class="scene-bg"></div>
+    ${decoHtml}
+    <div class="scene-floor"></div>
+    <div class="scene-ground"></div>
+    <div id="sceneObjs"></div>
+    <div class="toast" id="sceneToast"></div>
+  </div>
+  <div class="clue-book" id="clueBook"></div>
+  <div id="inputArea"></div>
+  <div id="why"></div>`;
+}
+
+function showQ(){
+  locked=false; firstTryOk=true; hintUsed=false; clueRevealed=false; clearQTick();
+  document.querySelectorAll(".praise").forEach(el=>el.remove());
+  const card=document.getElementById("card"); card.classList.remove("celeb");
+  if(qi>=curIsland.questions.length){ settle(false); return; }
+  const raw=curIsland.questions[qi];
+  const item=mixMc(raw);
+  curIsland._cur=item;
+  document.getElementById("ptitle").textContent=`${curIsland.emoji} ${curIsland.name} · 探索中`;
+  const top=document.getElementById("ptop"); top.innerHTML="";
+  const back=document.createElement("button"); back.type="button"; back.textContent="← 退出本課題";
+  back.onclick=()=>{ if(confirm("退出後本課題進度唔會保留，確定？")){ showPanel(false); renderMap(); } };
+  top.appendChild(back);
+  const hint=document.createElement("button"); hint.type="button"; hint.className="hint-btn"; hint.textContent="✨ 微光提示";
+  hint.onclick=()=>softHint();
+  top.appendChild(hint);
+  const spread=document.createElement("button"); spread.type="button"; spread.textContent="📐 散開";
+  spread.title="重新用格位擺開答案，方便撳到背後嗰個";
+  spread.onclick=()=>respreadObjects();
+  top.appendChild(spread);
+
+  const body=document.getElementById("pbody");
+  let timerHtml="";
+  if(timerMins>0) timerHtml=`<div class="q-timer" id="qTimerBox"><span class="secs" id="paperLeft">剩餘 ${formatMmSs(((paperDeadline-Date.now())/1000)|0)}</span><div class="bar"><i id="paperBar"></i></div></div>`;
+  const src=`<span class="src-tag">${esc(item.src||"")}</span><span class="sec-tag">${esc(item.sec||"練習")}</span>`;
+  const theme=sceneTheme(curIsland.unitKey, item.sec);
+
+  if(item.kind==="mc"){
+    body.innerHTML=buildSceneShell(theme, timerHtml, src, item.q, "請在場景中找出正確答案（點擊竹簡／寶物）");
+    placeMcObjects(item);
+  } else {
+    body.innerHTML=buildSceneShell(theme, timerHtml, src, item.q, "請在場景中尋找藏有答案字詞的線索物");
+    placeInputClues(item);
+  }
+
+  if(timerMins>0){
+    qTick=setInterval(()=>{
+      const left=Math.max(0,((paperDeadline-Date.now())/1000)|0);
+      const el=document.getElementById("paperLeft"); const bar=document.getElementById("paperBar");
+      const box=document.getElementById("qTimerBox");
+      if(el) el.textContent="剩餘 "+formatMmSs(left);
+      if(bar) bar.style.width=Math.max(0,Math.min(100,(left/(timerMins*60))*100))+"%";
+      if(box) box.classList.toggle("warn", left<=60);
+    },200);
+  }
+}
+
+function placeMcObjects(item){
+  const host=document.getElementById("sceneObjs");
+  const nDecoy = Math.random()<.7 ? 1 : 2;
+  const total = item.opts.length + nDecoy;
+  const pos = scatterPositions(total);
+  const icons = shuffle(OBJ_ICONS.slice());
+  const items = item.opts.map((t,i)=>({kind:"opt", idx:i, text:t, ico:icons[i%icons.length]}));
+  for(let d=0;d<nDecoy;d++){
+    items.push({kind:"decoy", idx:-1, text:"裝飾", ico:DECOY_ICONS[(Math.random()*DECOY_ICONS.length)|0]});
+  }
+  const order = shuffle(items);
+  order.forEach((o,i)=>{
+    const p=pos[i];
+    const btn=document.createElement("button");
+    btn.type="button";
+    btn.className="find-obj"+(o.kind==="decoy"?" decoy":"");
+    btn.style.left=p.left+"%";
+    btn.style.top=p.top+"%";
+    btn.style.animationDuration=p.dur+"s";
+    btn.style.animationDelay=p.delay+"s";
+    btn.dataset.kind=o.kind;
+    if(o.kind==="opt") btn.dataset.i=String(o.idx);
+    const short = o.kind==="decoy" ? "？" : (o.text.length>28 ? o.text.slice(0,26)+"…" : o.text);
+    btn.innerHTML=`<span class="ico">${o.ico}</span><span class="lbl">${esc(short)}</span>`;
+    btn.title = o.kind==="decoy" ? "裝飾物" : o.text;
+    btn.onclick=()=>{
+      if(locked||paperTimedOut) return;
+      if(o.kind==="decoy"){
+        btn.classList.add("wrong");
+        showToast(DECOY_MSGS[(Math.random()*DECOY_MSGS.length)|0]);
+        beep("tap");
+        const wrap=document.getElementById("sceneWrap");
+        if(wrap){ wrap.classList.remove("scene-shake"); void wrap.offsetWidth; wrap.classList.add("scene-shake"); }
+        return;
+      }
+      const ok = o.idx === item.ans;
+      if(ok){
+        locked=true;
+        btn.classList.add("correct");
+        host.querySelectorAll(".find-obj").forEach(b=>b.disabled=true);
+        afterAnswer(true, item.opts[o.idx], firstTryOk?1:0);
+      } else {
+        btn.classList.add("wrong");
+        btn.disabled=true;
+        showToast(WRONG_MSGS[(Math.random()*WRONG_MSGS.length)|0]);
+        const wrap=document.getElementById("sceneWrap");
+        if(wrap){ wrap.classList.remove("scene-shake"); void wrap.offsetWidth; wrap.classList.add("scene-shake"); }
+        afterAnswer(false, item.opts[o.idx], 0);
+      }
+    };
+    host.appendChild(btn);
+  });
+}
+
+function placeInputClues(item){
+  const host=document.getElementById("sceneObjs");
+  const nFake = 3 + ((Math.random()*2)|0);
+  const total = nFake + 1;
+  const pos = scatterPositions(total);
+  const icons = shuffle(OBJ_ICONS.concat(DECOY_ICONS));
+  const fakeLabels = shuffle(CLUE_FAKE.concat(["地圖碎片","舊標籤","空白信封"]));
+  const objs = [{kind:"real", text:item.ans, ico:icons[0]}];
+  for(let i=0;i<nFake;i++) objs.push({kind:"fake", text:fakeLabels[i%fakeLabels.length], ico:icons[(i+1)%icons.length]});
+  shuffle(objs).forEach((o,i)=>{
+    const p=pos[i];
+    const btn=document.createElement("button");
+    btn.type="button";
+    btn.className="find-obj"+(o.kind==="fake"?" decoy":"");
+    btn.style.left=p.left+"%";
+    btn.style.top=p.top+"%";
+    btn.style.animationDuration=p.dur+"s";
+    btn.style.animationDelay=p.delay+"s";
+    btn.dataset.kind=o.kind;
+    btn.innerHTML=`<span class="ico">${o.ico}</span><span class="lbl">${o.kind==="real"?"神秘線索":esc(o.text)}</span>`;
+    btn.onclick=()=>{
+      if(locked||paperTimedOut||clueRevealed) return;
+      if(o.kind==="fake"){
+        btn.classList.add("wrong");
+        btn.disabled=true;
+        showToast(Math.random()<.5 ? "再搵～" : ("寫住「"+o.text+"」…無關"));
+        beep("bad");
+        const why=document.getElementById("why");
+        if(why) why.innerHTML=`<span style="color:#868e96">呢個唔係答案線索，繼續搵！</span>`;
+        return;
+      }
+      clueRevealed=true;
+      btn.classList.add("clue-found");
+      btn.innerHTML=`<span class="ico">✨</span><span class="lbl">${esc(item.ans)}</span>`;
+      host.querySelectorAll(".find-obj").forEach(b=>{ if(b!==btn) b.disabled=true; });
+      beep("hint");
+      const book=document.getElementById("clueBook");
+      book.classList.add("show");
+      book.innerHTML=`📒 線索簿：答案字詞係「<strong>${esc(item.ans)}</strong>」——而家輸入確認啦！`;
+      const area=document.getElementById("inputArea");
+      area.innerHTML=`<div class="input-row"><input id="ansIn" type="text" autocomplete="off" enterkeyhint="done" placeholder="輸入你搵到嘅答案"><button type="button" class="go" id="ansGo" style="width:auto;flex:0 0 auto;padding:12px 18px">提交</button></div>`;
+      const go=()=>answerInput();
+      document.getElementById("ansGo").onclick=go;
+      document.getElementById("ansIn").onkeydown=e=>{ if(e.key==="Enter"){ e.preventDefault(); go(); } };
+      setTimeout(()=>{ const inp=document.getElementById("ansIn"); if(inp) inp.focus(); },150);
+      showToast("搵到線索！");
+    };
+    host.appendChild(btn);
+  });
+}
+
+function softHint(){
+  if(locked||paperTimedOut) return;
+  const objs=[...document.querySelectorAll(".find-obj:not(.wrong):not([disabled])")];
+  if(!objs.length){ showToast("冇剩餘物件啦"); return; }
+  objs.forEach(b=>{
+    b.classList.add("hint-glow");
+    setTimeout(()=>b.classList.remove("hint-glow"), 1400);
+  });
+  beep("hint");
+  showToast("微光：未試過嘅物件閃咗一下～");
+  hintUsed=true;
+}
+
+function answerInput(){
+  if(locked||paperTimedOut) return;
+  if(!clueRevealed){ showToast("先喺場景搵線索物！"); return; }
+  const item=curIsland._cur;
+  const inp=document.getElementById("ansIn");
+  const val=(inp&&inp.value||"").trim();
+  if(!val){ document.getElementById("why").textContent="請先輸入答案啦～"; return; }
+  const ok=matchInput(val, item);
+  if(ok){
+    locked=true; if(inp) inp.disabled=true;
+    const go=document.getElementById("ansGo"); if(go) go.disabled=true;
+    afterAnswer(true, val, firstTryOk?1:0);
+  } else {
+    afterAnswer(false, val, 0);
+    if(inp){ inp.select(); }
+  }
+}
+
+function settle(fromTimeout){
+  clearPaperTimer(); clearQTick(); locked=true;
+  if(fromTimeout){
+    for(let i=qi;i<curIsland.questions.length;i++){
+      const it=curIsland.questions[i];
+      paperLog.push({q:it.q, ok:false, first:false, user:"（時間到未作答）", correct: it.kind==="mc"?it.opts[it.ans]:it.ans, src:it.src, pts:0});
+    }
+  }
+  totalScore+=paperScore;
+  if(paperScore>=Math.ceil(paperTotal*0.6)) cleared[curIsland.id]=1;
+  const pct=paperTotal?Math.round(paperScore/paperTotal*100):0;
+  let encourage;
+  if(pct>=90) encourage="🌟 優秀！幾乎滿分，中史尋答案達人！";
+  else if(pct>=75) encourage="👏 好叻！繼續保持，好穩陣！";
+  else if(pct>=60) encourage="💪 過關啦！錯題再溫習會更穩！";
+  else if(pct>=40) encourage="🌈 已有基礎，返課題再練就會進步！";
+  else encourage="🌱 唔緊要，對照答案再挑戰同一課題啦！";
+  document.getElementById("ptitle").textContent=(fromTimeout?"⏰ 時間到 · ":"🎉 完成 · ")+curIsland.name;
+  const top=document.getElementById("ptop"); top.innerHTML="";
+  const back=document.createElement("button"); back.type="button"; back.textContent="← 返回課題";
+  back.onclick=()=>{ showPanel(false); renderMap(); };
+  top.appendChild(back);
+  let items="";
+  paperLog.forEach((L,i)=>{
+    items+=`<div class="report-item ${L.ok||L.pts?"ok":"ng"}"><strong>第 ${i+1} 題</strong> <span class="src-tag">${esc(L.src||"")}</span><br>${esc(L.q)}<br>
+    你嘅答案：${esc(L.user)}<br>正確答案：<strong>${esc(L.correct)}</strong> · ${L.pts?"+1":"0 分"}</div>`;
+  });
+  document.getElementById("pbody").innerHTML=`
+    <div class="report-sum">本課題得分 <strong>${paperScore} / ${paperTotal}</strong>（${pct}%）${fromTimeout?" · 因計時結束交卷":""}<br>累計總分 ${totalScore}</div>
+    <div class="report-encourage">${encourage}</div>
+    <h3 style="margin:12px 0 6px;font-size:16px">📋 逐題分析</h3>
+    ${items}
+    <button type="button" class="go" id="againBtn">🔄 再挑戰本課題</button>
+    <button type="button" class="go" id="mapBtn" style="background:linear-gradient(180deg,#e8d5a8,#c9a66b);border-color:#8b6914;color:#3d2914;box-shadow:0 5px 0 #5c3d1e">🗺️ 返回課題選單</button>`;
+  const mapBtn=document.getElementById("mapBtn");
+  if(mapBtn){ mapBtn.onclick=()=>{ showPanel(false); renderMap(); }; }
+  document.getElementById("againBtn").onclick=()=>showSetup();
+
+  try{
+    if(window.P5Platform && P5Platform.hasPlayer){
+      P5Platform.report({
+        gameId:"chi-hist-explore", game:"中國歷史尋找答案・場景", mode: curIsland.unitKey||"explore",
+        lesson: (curIsland.unitTitle||"")+"｜"+curIsland.name,
+        detail: (fromTimeout?"timeout":"done")+" · "+paperScore+"/"+paperTotal,
+        score: paperScore, maxScore: paperTotal, pct: pct
+      });
+      const cardEl=document.getElementById("card");
+      if(cardEl) P5Platform.appendReturn(cardEl);
+    }
+  }catch(_p5e){}
+  updateHud(); beep(pct>=60?"ok":"bad");
+}
+
+document.getElementById("sndBtn").onclick=function(){
+  soundOn=!soundOn; this.classList.toggle("on",soundOn);
+  this.textContent=soundOn?"🔊 音效：開":"🔇 音效：關";
+  this.setAttribute("aria-pressed", soundOn?"true":"false");
+  if(soundOn){ ensureAudio(); beep("tap"); }
+};
+document.getElementById("sndBtn").classList.add("on");
+renderMap();
+
+</script>
+</body>
+</html>
