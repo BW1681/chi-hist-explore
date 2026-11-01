@@ -148,9 +148,32 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .lv-btn.lv3{background:linear-gradient(165deg,#c92a2a,#7a1c1c);border-color:#ffa8a8}
 .lv-btn.lvall{background:linear-gradient(165deg,#5f3dc4,#364fc7);border-color:#b197fc}
 
+
+#gate{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:16px;
+  background:rgba(26,18,11,.9);backdrop-filter:blur(8px)}
+#gate.pass-ok{display:none!important}
+.gate-card{width:100%;max-width:380px;padding:22px 20px 20px;border-radius:22px;
+  background:linear-gradient(180deg,#fff8ef,#f3e5c2);color:#2b2118;border:3px solid #e8d5a8;
+  box-shadow:0 16px 0 rgba(0,0,0,.18),0 28px 60px rgba(0,0,0,.35);text-align:center}
+.gate-card h2{margin:0 0 6px;font-size:22px;color:#5c3d1e}
+.gate-card .hint{margin:0 0 14px;font-size:13.5px;font-weight:700;color:#8b6914}
+.gate-card input{width:100%;font-size:18px;padding:12px 14px;border-radius:12px;border:3px solid #c9a66b;
+  font-family:inherit;font-weight:700;color:#1a120b;text-align:center;letter-spacing:.12em;box-sizing:border-box}
+.gate-card button.go{margin-top:12px}
+#gateErr{min-height:22px;margin-top:10px;font-weight:800;font-size:14px;color:#c92a2a}
+
 </style>
 </head>
 <body>
+<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
+  <div class="gate-card">
+    <h2 id="gateTitle">請輸入密碼</h2>
+    <p class="hint">輸入密碼後開始遊戲</p>
+    <input id="gatePass" type="password" autocomplete="off" maxlength="32" placeholder="請輸入密碼" aria-label="請輸入密碼">
+    <button type="button" class="go" id="gateEnter">進入</button>
+    <div id="gateErr" aria-live="polite"></div>
+  </div>
+</div>
 <header>
   <h1>📜 中國歷史尋找答案 <span class="badge">中一 · 第一冊 · 場景探索</span></h1>
   <p>根據香港教育圖書《樂學中國歷史》第一冊網上課本要點。先揀單元，再入課題場景；喺竹簡／青銅／卷軸之間搵答案。計時可選、只計第一次答對；答錯要繼續搵；結算先公佈正確答案。</p>
@@ -991,7 +1014,52 @@ document.getElementById("sndBtn").onclick=function(){
   if(soundOn){ ensureAudio(); beep("tap"); }
 };
 document.getElementById("sndBtn").classList.add("on");
-renderMap();
+
+const GAME_ID = "chi-hist-explore";
+const GATE_KEY = GAME_ID + "_session_ok";
+const GATE_CODE = String.fromCharCode(49,54,56,49); /* 1681 */
+function gateUnlocked(){
+  try{ return sessionStorage.getItem(GATE_KEY)==="1"; }catch(e){ return false; }
+}
+function markGateUnlocked(){
+  try{ sessionStorage.setItem(GATE_KEY,"1"); }catch(e){}
+}
+function hideGate(){
+  const g=document.getElementById("gate");
+  if(g) g.classList.add("pass-ok");
+}
+function showGateError(msg){
+  const el=document.getElementById("gateErr");
+  if(el) el.textContent=msg||"";
+}
+function tryGateUnlock(){
+  const inp=document.getElementById("gatePass");
+  const raw=inp?String(inp.value||""):"";
+  if(raw===GATE_CODE){
+    markGateUnlocked();
+    hideGate();
+    showGateError("");
+    renderMap();
+  } else {
+    showGateError("密碼錯誤。");
+    if(inp){ inp.value=""; inp.focus(); }
+  }
+}
+function boot(){
+  if(gateUnlocked()){
+    hideGate();
+    renderMap();
+    return;
+  }
+  const enter=document.getElementById("gateEnter");
+  const inp=document.getElementById("gatePass");
+  if(enter) enter.onclick=tryGateUnlock;
+  if(inp){
+    inp.addEventListener("keydown", e=>{ if(e.key==="Enter"){ e.preventDefault(); tryGateUnlock(); }});
+    setTimeout(()=>inp.focus(), 50);
+  }
+}
+boot();
 
 </script>
 </body>
